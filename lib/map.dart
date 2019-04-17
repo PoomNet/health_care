@@ -6,7 +6,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart' as LocationManager;
 import 'location.dart';
 
-const kGoogleApiKey = "AIzaSyBwHf-AGE-W1dcbCUDWYYxgTqekLFcH6gc";
+const kGoogleApiKey = "API-KEY";
 GoogleMapsPlaces _places = GoogleMapsPlaces(apiKey: kGoogleApiKey);
 
 void main() {
