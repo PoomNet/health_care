@@ -16,53 +16,53 @@ class MyApp extends StatelessWidget {
       ),
       initialRoute: "/",
                     routes: {
-                      "/": (context) => Home(),
+                      "/": (context) => Map_Screen(),
                     }
       // home: MyHomePage(),
     );
   }
 }
                     
-class MyHomePage extends StatefulWidget {
-  @override
-  MyHomePageState createState() => MyHomePageState();
-}
+// class MyHomePage extends StatefulWidget {
+//   @override
+//   MyHomePageState createState() => MyHomePageState();
+// }
 
-class MyHomePageState extends State<MyHomePage>{
-  GoogleMapController myController;
-  @override
-  Widget build(BuildContext context) {
-    // TODO: implement build
-    return Scaffold(
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Container(
-            height: 500,
-            width: double.infinity,
-            child: GoogleMap(
-              onMapCreated: (controller) {
-                setState(() {
-                  myController = controller;
-                });
-              },
-              options: GoogleMapOptions(
-                scrollGesturesEnabled: true,
-                tiltGesturesEnabled: true,
-                rotateGesturesEnabled: true,
-                myLocationEnabled: true,
-                mapType: MapType.normal,
-                trackCameraPosition: true,
-                zoomGesturesEnabled: true,
+// class MyHomePageState extends State<MyHomePage>{
+//   GoogleMapController myController;
+//   @override
+//   Widget build(BuildContext context) {
+//     // TODO: implement build
+//     return Scaffold(
+//       body: Column(
+//         mainAxisAlignment: MainAxisAlignment.center,
+//         children: <Widget>[
+//           Container(
+//             height: 500,
+//             width: double.infinity,
+//             child: GoogleMap(
+//               onMapCreated: (controller) {
+//                 setState(() {
+//                   myController = controller;
+//                 });
+//               },
+//               options: GoogleMapOptions(
+//                 scrollGesturesEnabled: true,
+//                 tiltGesturesEnabled: true,
+//                 rotateGesturesEnabled: true,
+//                 myLocationEnabled: true,
+//                 mapType: MapType.normal,
+//                 trackCameraPosition: true,
+//                 zoomGesturesEnabled: true,
                 // cameraPosition: CameraPosition(
                 //   target: LatLng(40.7128, -74.0060),
                 //   zoom: 10.0
                 // )
-              ),
-            ),
-          )
-        ],
-      ),
-    );
-  }
-}
+    //           ),
+    //         ),
+    //       )
+    //     ],
+    //   ),
+    // );
+  // }
+// }

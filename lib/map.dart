@@ -11,20 +11,20 @@ GoogleMapsPlaces _places = GoogleMapsPlaces(apiKey: kGoogleApiKey);
 
 void main() {
   runApp(MaterialApp(
-    title: "PlaceZ",
-    home: Home(),
+    title: "Map Health Care",
+    home: Map_Screen(),
     debugShowCheckedModeBanner: false,
   ));
 }
 
-class Home extends StatefulWidget {
+class Map_Screen extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
-    return HomeState();
+    return MapState();
   }
 }
 
-class HomeState extends State<Home> {
+class MapState extends State<Map_Screen> {
   final homeScaffoldKey = GlobalKey<ScaffoldState>();
   GoogleMapController mapController;
   List<PlacesSearchResult> places = [];
