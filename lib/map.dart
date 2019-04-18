@@ -47,7 +47,7 @@ class MapState extends State<Map_Screen> {
     return Scaffold(
         key: homeScaffoldKey,
         appBar: AppBar(
-          title: const Text("PlaceZ"),
+          title: const Text("Map Health Care"),
           actions: <Widget>[
             isLoading
                 ? IconButton(
