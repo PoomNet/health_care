@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
+import 'package:myapp/screens/addpost_screen.dart';
 import 'package:myapp/screens/map_screen.dart';
 import 'package:myapp/screens/post_screens.dart';
 import 'package:myapp/screens/profile_screen.dart';
@@ -14,9 +16,6 @@ class _MainPageState extends State<MainPage> {
 
   int currentIndex = 0;
   List pages = [PostPage(), MyMapPage(), ProfilePage()];
-
-
-  
 
   @override
   Widget build(BuildContext context) {
@@ -36,11 +35,16 @@ class _MainPageState extends State<MainPage> {
     ],);
 
     Widget appBar = AppBar(
-    title: Text('HelthCare', style: myStyle ),centerTitle: true,);
+      title: Text('HelthCare', style: myStyle ),
+      centerTitle: true,
+      actions: <Widget>[
+         new IconButton(icon: new Icon(Icons.search),onPressed: (){}),
+        ],
+      );
 
     Widget floatingAction = FloatingActionButton(
     backgroundColor: Colors.red
-    ,onPressed: () {}, child: Icon(Icons.add),);
+    ,onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context) => AddPage()));}, child: Icon(Icons.add),);
 
     Widget drawer = Drawer(
   // Add a ListView to the drawer. This ensures the user can scroll
@@ -55,12 +59,20 @@ class _MainPageState extends State<MainPage> {
           backgroundImage: NetworkImage('https://randomuser.me/api/portraits/med/women/69.jpg'),
         // backgroundColor: Colors.white10,
          ),
+         accountName: Text('Waiwarit'),
+         accountEmail: Text('60070087@kmitl.ac.th'),
+         decoration: BoxDecoration(
+           image: DecorationImage(
+             fit: BoxFit.cover,
+             image: AssetImage('assets/pic/login-bg.jpg')
+           )
+         ),
         ),
       
       ListTile(
         leading: Icon(Icons.home),
         title: Text('หน้าหลัก'),
-        trailing: Icon(Icons.keyboard_arrow_down),
+        trailing: Icon(Icons.keyboard_arrow_right),
         onTap: () {
 
         },
@@ -69,7 +81,7 @@ class _MainPageState extends State<MainPage> {
         leading:Icon(Icons.settings),
         title: Text('ตั้งค่า'),
         subtitle: Text('ตั่งค่าผู้ใช้'),
-        trailing: Icon(Icons.arrow_drop_down),
+        trailing: Icon(Icons.keyboard_arrow_right),
         onTap: () {
         },
       ),
