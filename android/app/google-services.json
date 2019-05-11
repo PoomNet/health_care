@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "636938144745",
+    "firebase_url": "https://health-a6c92.firebaseio.com",
+    "project_id": "health-a6c92",
+    "storage_bucket": "health-a6c92.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:636938144745:android:f78dc4a0e5b93872",
+        "android_client_info": {
+          "package_name": "com.example.health_care"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "636938144745-0s94f3qvknk40qrhaetp3qlg2jj2tbtg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCSrtryyhLQuO__fynd2-ZXmkJ3dXJ3Qc4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "636938144745-0s94f3qvknk40qrhaetp3qlg2jj2tbtg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

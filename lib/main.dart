@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'map.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'home.dart';
+// import 'map.dart';
 
 void main() => runApp(MyApp());
 
@@ -16,7 +16,8 @@ class MyApp extends StatelessWidget {
       ),
       initialRoute: "/",
                     routes: {
-                      "/": (context) => Map_Screen(),
+                      "/": (context) => MainPage(),
+                      
                     }
       // home: MyHomePage(),
     );
