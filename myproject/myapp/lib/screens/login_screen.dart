@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-
-import 'main_screen.dart';
+import 'package:flutter/widgets.dart';
+import 'package:myapp/screens/home_screen.dart';
+import 'package:myapp/screens/signup_screen.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -75,27 +75,11 @@ class _LoginPageState extends State<LoginPage> {
                   RaisedButton(
                     onPressed: () => doLogin() , color: Colors.pink[200], child: Text('Login', style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),),
                   ),FlatButton(
-                    onPressed: () {}, child: Text('Sign Up', style: TextStyle(color: Colors.white, fontSize: 10),),
+                    onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context) => SignUpPage()));}, child: Text('Sign Up', style: TextStyle(color: Colors.white, fontSize: 10),),
                   ),
                   FlatButton(
                     onPressed: () {}, child: Text('Forget Password', style: TextStyle(color: Colors.white, fontSize: 10),),
                   ),
-                  Divider(color: Colors.white,),
-                  Text('or login with', style: TextStyle(fontSize: 18, color: Colors.white, fontWeight: FontWeight.bold),),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: <Widget>[
-                      FloatingActionButton(onPressed: () {},
-                        child: Icon(FontAwesomeIcons.facebookF),
-                        heroTag: 'btn1',
-                      ),
-                      FloatingActionButton(onPressed: () {},
-                        child: Icon(FontAwesomeIcons.google, color: Colors.green,),
-                        backgroundColor: Colors.white,
-                        heroTag: 'btn2',
-                      ),
-                    ],
-                  )
                 ],
               ),
             ),
