@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:myapp/data/users.dart';
 import 'package:myapp/screens/addpost_screen.dart';
@@ -25,9 +26,12 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
-  Future<Null> _handleSignOut() async {
-    await _googleSignIn.disconnect();
+  static final FacebookLogin facebookSignIn = new FacebookLogin();
 
+  Future<Null> _handleSignOut() async {
+
+    await facebookSignIn.logOut();
+    
     Navigator.of(context)
         .pushReplacement(MaterialPageRoute(builder: (context) => LoginPage()));
   }

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
@@ -7,6 +9,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:myapp/data/users.dart';
+import 'package:flutter_facebook_login/flutter_facebook_login.dart';
+import 'package:http/http.dart' as http;
 
 GoogleSignIn _googleSignIn = new GoogleSignIn(
   scopes: <String>[
@@ -20,8 +24,28 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-
   GoogleSignInAccount _currentUser;
+  static final FacebookLogin facebookSignIn = new FacebookLogin();
+
+  Future<Null> _facebookLogin() async {
+    final FacebookLoginResult result =
+        await facebookSignIn.logInWithReadPermissions(['email']);
+
+    switch (result.status) {
+      case FacebookLoginStatus.loggedIn:
+        final FacebookAccessToken accessToken = result.accessToken;
+        print(accessToken.token);
+        await getFacebookInfo(accessToken.token);
+        break;
+      case FacebookLoginStatus.cancelledByUser:
+        print('Login cancelled by the user.');
+        break;
+      case FacebookLoginStatus.error:
+        print('Something went wrong with the login process.\n'
+            'Here\'s the error Facebook gave us: ${result.errorMessage}');
+        break;
+    }
+  }
 
   Future<Null> _handleSignIn() async {
     try {
@@ -32,6 +56,29 @@ class _LoginPageState extends State<LoginPage> {
       user.photoUrl = _currentUser.photoUrl;
       print(_currentUser);
       Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=> MainPage(user)));
+    } catch (error) {
+      print(error);
+    }
+  }
+
+  Future getFacebookInfo(token) async {
+    String url =
+        'https://graph.facebook.com/v2.8/me?fields=picture.type(large),email,first_name,last_name&access_token=$token';
+    try {
+      var response = await http.get(url);
+      if (response.statusCode == 200) {
+        var jsonResponse = json.decode(response.body);
+        print(jsonResponse);
+        User user = User();
+        user.displayname =
+            '${jsonResponse['first_name']} ${jsonResponse['last_name']}';
+        user.email = jsonResponse['email'];
+        user.photoUrl = jsonResponse['picture']['data']['url'];
+        Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (context) => MainPage(user)));
+      } else {
+        print('Connection error!!');
+      }
     } catch (error) {
       print(error);
     }
@@ -110,10 +157,11 @@ class _LoginPageState extends State<LoginPage> {
                     height: 20.0,
                   ),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
-                      FloatingActionButton(child: Icon(FontAwesomeIcons.google, color: Colors.red,),backgroundColor: Colors.white,onPressed: () => _handleSignIn(),),
-
+                      FloatingActionButton(child: Icon(FontAwesomeIcons.google, color: Colors.red,),backgroundColor: Colors.white,onPressed: () => _handleSignIn(),heroTag: 'googleBn',),
+                      FloatingActionButton(child: Icon(FontAwesomeIcons.facebookF, color: Colors.white,),backgroundColor: Colors.blue,onPressed: () => _facebookLogin(),heroTag: 'facebookBn',),
+                    
                     ],
                   )
                 ],
