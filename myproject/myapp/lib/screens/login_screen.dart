@@ -1,7 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:myapp/screens/home_screen.dart';
 import 'package:myapp/screens/signup_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
+GoogleSignIn _googleSignIn = new GoogleSignIn(
+  scopes: <String>[
+    'email',
+  ],
+);
 
 class LoginPage extends StatefulWidget {
   @override
@@ -9,6 +19,17 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+
+  GoogleSignInAccount _currentUser;
+
+  Future<Null> _handleSignIn() async {
+    try {
+      _currentUser = await _googleSignIn.signIn();
+      print(_currentUser);
+    } catch (error) {
+      print(error);
+    }
+  }
 
   TextEditingController ctrlUsername = TextEditingController();
   TextEditingController ctrlPassword = TextEditingController();
@@ -79,7 +100,16 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   FlatButton(
                     onPressed: () {}, child: Text('Forget Password', style: TextStyle(color: Colors.white, fontSize: 10),),
+                  ),Divider(
+                    height: 20.0,
                   ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      FloatingActionButton(child: Icon(FontAwesomeIcons.google, color: Colors.red,),backgroundColor: Colors.white,onPressed: () => _handleSignIn(),),
+
+                    ],
+                  )
                 ],
               ),
             ),
@@ -101,7 +131,7 @@ class _LoginPageState extends State<LoginPage> {
         print('invaild');
       }
     }
-
-    
   }
+
+
 }
