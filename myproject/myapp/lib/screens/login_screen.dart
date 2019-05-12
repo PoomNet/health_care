@@ -6,6 +6,7 @@ import 'package:myapp/screens/signup_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:myapp/data/users.dart';
 
 GoogleSignIn _googleSignIn = new GoogleSignIn(
   scopes: <String>[
@@ -25,7 +26,12 @@ class _LoginPageState extends State<LoginPage> {
   Future<Null> _handleSignIn() async {
     try {
       _currentUser = await _googleSignIn.signIn();
+      User user = User();
+      user.displayname = _currentUser.displayName;
+      user.email = _currentUser.email;
+      user.photoUrl = _currentUser.photoUrl;
       print(_currentUser);
+      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=> MainPage(user)));
     } catch (error) {
       print(error);
     }
@@ -125,11 +131,6 @@ class _LoginPageState extends State<LoginPage> {
       String username = ctrlUsername.text;
       String password = ctrlPassword.text;
 
-      if (username == 'waiwarit' && password == '123456'){
-        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => MainPage()));
-      } else{
-        print('invaild');
-      }
     }
   }
 

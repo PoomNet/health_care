@@ -2,12 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
+import 'package:myapp/data/users.dart';
 import 'package:myapp/screens/addpost_screen.dart';
 import 'package:myapp/screens/map_screen.dart';
 import 'package:myapp/screens/post_screens.dart';
 import 'package:myapp/screens/profile_screen.dart';
 
 class MainPage extends StatefulWidget {
+  User userinfo;
+  MainPage(this.userinfo);
+  
   @override
   _MainPageState createState() => _MainPageState();
 }
@@ -56,16 +60,13 @@ class _MainPageState extends State<MainPage> {
     children: <Widget>[
       UserAccountsDrawerHeader(
         currentAccountPicture: CircleAvatar(
-          backgroundImage: NetworkImage('https://randomuser.me/api/portraits/med/women/69.jpg'),
+          backgroundImage: NetworkImage(widget.userinfo.photoUrl),
         // backgroundColor: Colors.white10,
          ),
-         accountName: Text('Waiwarit'),
-         accountEmail: Text('60070087@kmitl.ac.th'),
+         accountName: Text(widget.userinfo.displayname),
+         accountEmail: Text(widget.userinfo.email),
          decoration: BoxDecoration(
-           image: DecorationImage(
-             fit: BoxFit.cover,
-             image: AssetImage('assets/pic/login-bg.jpg')
-           )
+           image: DecorationImage(fit: BoxFit.cover, image: NetworkImage(widget.userinfo.photoUrl))
          ),
         ),
       
