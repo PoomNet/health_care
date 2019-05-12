@@ -2,11 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:myapp/data/users.dart';
 import 'package:myapp/screens/addpost_screen.dart';
+import 'package:myapp/screens/login_screen.dart';
 import 'package:myapp/screens/map_screen.dart';
 import 'package:myapp/screens/post_screens.dart';
 import 'package:myapp/screens/profile_screen.dart';
+
+GoogleSignIn _googleSignIn = new GoogleSignIn(
+  scopes: <String>[
+    'email',
+  ],
+);
 
 class MainPage extends StatefulWidget {
   User userinfo;
@@ -17,6 +25,14 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
+  Future<Null> _handleSignOut() async {
+    await _googleSignIn.disconnect();
+
+    Navigator.of(context)
+        .pushReplacement(MaterialPageRoute(builder: (context) => LoginPage()));
+  }
+
+  
 
   int currentIndex = 0;
   List pages = [PostPage(), MyMapPage(), ProfilePage()];
@@ -93,12 +109,11 @@ class _MainPageState extends State<MainPage> {
         color: Colors.black,
       ),
       ListTile(
-        leading:Icon(Icons.group),
+        leading:Icon(Icons.exit_to_app),
         title: Text('ออกจากระบบ'),
         subtitle: Text('Logout'),
-        trailing: Icon(Icons.keyboard_return),
-        onTap: () {
-        },
+
+        onTap: () => _handleSignOut(),
       ),
     ],
   ));
