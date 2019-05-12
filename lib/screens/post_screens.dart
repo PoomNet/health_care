@@ -1,21 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_database/firebase_database.dart';
+import 'package:myapp/screens/post_describe.dart';
 
 import 'current_post.dart';
-import 'post_describe.dart';
-import 'post_screen.dart';
 
 
-class PostDescribeScreen extends StatefulWidget {
-  //โชแต่ละโพสทั้งหมด
-  @override
-  State<StatefulWidget> createState() => new PostDescribeScreenState();
-  // TODO: implement createState
+class PostPage extends StatefulWidget {
+  PostPage({Key key}) : super(key: key);
 
+  _PostPageState createState() => _PostPageState();
 }
 
-class PostDescribeScreenState extends State<PostDescribeScreen> {
+class _PostPageState extends State<PostPage> {
   Widget _buildTodoItem(BuildContext context, DocumentSnapshot document) {
     return Card(
         child: ListTile(
@@ -25,16 +21,17 @@ class PostDescribeScreenState extends State<PostDescribeScreen> {
         Currentpost.CAUSE = document['cause'];
         Currentpost.SYMPTOM = document['symptom'];
         Currentpost.DESCRIBE = document['describe'];
+        Currentpost.CATEGORY = document['category'];
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => Showpost()));
       },
     ));
   }
 
-  void _addTodoItem() async {
-    await Navigator.push(
-        context, MaterialPageRoute(builder: (context) => Addpost()));
-  }
+  // void _addTodoItem() async {
+  //   await Navigator.push(
+  //       context, MaterialPageRoute(builder: (context) => Addpost()));
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -46,10 +43,6 @@ class PostDescribeScreenState extends State<PostDescribeScreen> {
               return Center(
                 child: Column(
                   children: <Widget>[
-                    new FloatingActionButton(
-                      onPressed: () {},
-                      child: Icon(Icons.add),
-                    ),
                     Text(
                       "No Data Found..",
                       textAlign: TextAlign.center,
@@ -63,19 +56,9 @@ class PostDescribeScreenState extends State<PostDescribeScreen> {
                 itemBuilder: (context, index) =>
                     _buildTodoItem(context, snapshot.data.documents[index]),
               );
-              new FloatingActionButton(
-                onPressed: () {},
-                child: Icon(Icons.add),
-              );
             }
           },
         ),
-        // floatingActionButton: FloatingActionButton(
-        //     child: Icon(Icons.add),
-        //     onPressed: () {
-        //       Navigator.push(
-        //           context, MaterialPageRoute(builder: (context) => Addpost()));
-        //     })
             );
   }
 }

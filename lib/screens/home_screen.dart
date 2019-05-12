@@ -1,25 +1,47 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_facebook_login/flutter_facebook_login.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:myapp/data/users.dart';
+import 'package:myapp/screens/addpost_screen.dart';
+import 'package:myapp/screens/login_screen.dart';
+import 'package:myapp/screens/map_screen.dart';
+import 'package:myapp/screens/post_screens.dart';
+import 'package:myapp/screens/profile_screen.dart';
 
-import 'allpost.dart';
-import 'post_screen.dart';
-import 'show_image.dart';
+GoogleSignIn _googleSignIn = new GoogleSignIn(
+  scopes: <String>[
+    'email',
+  ],
+);
 
 class MainPage extends StatefulWidget {
+  User userinfo;
+  MainPage(this.userinfo);
+  
   @override
   _MainPageState createState() => _MainPageState();
 }
 
 class _MainPageState extends State<MainPage> {
+  static final FacebookLogin facebookSignIn = new FacebookLogin();
 
-  int currentIndex = 0;
-  List pages = [PostDescribeScreen(),Addpost(), Showimage()];
+  Future<Null> _handleSignOut() async {
 
+    await facebookSignIn.logOut();
+    
+    Navigator.of(context)
+        .pushReplacement(MaterialPageRoute(builder: (context) => LoginPage()));
+  }
 
   
 
- @override
+  int currentIndex = 0;
+  List pages = [PostPage(), MyMapPage(), ProfilePage()];
+
+  @override
   Widget build(BuildContext context) {
 
     TextStyle myStyle = TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold);
@@ -46,7 +68,7 @@ class _MainPageState extends State<MainPage> {
 
     Widget floatingAction = FloatingActionButton(
     backgroundColor: Colors.red
-    ,onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context) => Addpost()));}, child: Icon(Icons.add),);
+    ,onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context) => AddPage(widget.userinfo)));}, child: Icon(Icons.add),);
 
     Widget drawer = Drawer(
   // Add a ListView to the drawer. This ensures the user can scroll
@@ -58,16 +80,13 @@ class _MainPageState extends State<MainPage> {
     children: <Widget>[
       UserAccountsDrawerHeader(
         currentAccountPicture: CircleAvatar(
-          backgroundImage: NetworkImage('https://randomuser.me/api/portraits/med/women/69.jpg'),
+          backgroundImage: NetworkImage(widget.userinfo.photoUrl),
         // backgroundColor: Colors.white10,
          ),
-         accountName: Text('Waiwarit'),
-         accountEmail: Text('60070087@kmitl.ac.th'),
+         accountName: Text(widget.userinfo.displayname),
+         accountEmail: Text(widget.userinfo.email),
          decoration: BoxDecoration(
-           image: DecorationImage(
-             fit: BoxFit.cover,
-             image: AssetImage('assets/pic/login-bg.jpg')
-           )
+           image: DecorationImage(fit: BoxFit.cover, image: NetworkImage(widget.userinfo.photoUrl))
          ),
         ),
       
@@ -94,12 +113,11 @@ class _MainPageState extends State<MainPage> {
         color: Colors.black,
       ),
       ListTile(
-        leading:Icon(Icons.group),
+        leading:Icon(Icons.exit_to_app),
         title: Text('ออกจากระบบ'),
         subtitle: Text('Logout'),
-        trailing: Icon(Icons.keyboard_return),
-        onTap: () {
-        },
+
+        onTap: () => _handleSignOut(),
       ),
     ],
   ));
