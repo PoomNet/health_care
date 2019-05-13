@@ -18,8 +18,13 @@ User userinfo;
     // TODO: implement createState
 
 }
+  var post=[];
+  var user;
+  var check_user=0;
   File image;
   String filename;
+
+  
 class AddimageState extends State<Addimage> {
 
 
@@ -32,6 +37,31 @@ class AddimageState extends State<Addimage> {
     });
   }
 
+  @override
+  initState() {
+    super.initState();
+    // Add listeners to this class
+    FirebaseDatabase.instance.reference().once().then((DataSnapshot data) {
+      for (check_user; check_user < data.value.length; check_user++) {
+        if (data.value[check_user] != null) {
+          if (data.value[check_user]['user']['name'] == 'poom') {//ไว้เชคuser
+            user=data.value[check_user]['user'];
+            break;
+          }
+      }
+      }
+      if (data.value[check_user]['post']!=null) {
+        for (var q = 0; q < data.value[check_user]['post'].length; q++) {
+          post.add(data.value[check_user]['post'][q]);
+        }
+      }
+
+      // print(data.value['post'][0]);
+    });
+  }
+  
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -82,6 +112,18 @@ Future<String> uploadImage() async{
   var url = downUrl.toString();
 
   print("download URL : $url");
+   post.add({
+                                "image": url,
+                                  "cause": Currentpost.CAUSE,
+                                  "symptom": Currentpost.SYMPTOM,
+                                  "category": Currentpost.CATEGORY,
+                                  "describe": Currentpost.DESCRIBE,
+                              });
+
+                              FirebaseDatabase.instance
+                                  .reference()
+                                  .child(check_user.toString())
+                                  .set({"post": post, "user": user});
   Firestore.instance.runTransaction(
                                   (Transaction transaction) async {
                                 CollectionReference reference =
@@ -95,4 +137,7 @@ Future<String> uploadImage() async{
                                   "describe": Currentpost.DESCRIBE,
                                 });
                                   });
+                                  post= [];
+                                  user=null;
+                                  image=null;
 }
