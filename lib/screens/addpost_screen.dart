@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:myapp/data/users.dart';
@@ -7,12 +8,15 @@ import 'addimage.dart';
 import 'current_post.dart';
 
 class AddPage extends StatefulWidget {
-User userinfo;
+  User userinfo;
   AddPage(this.userinfo);
   _AddPageState createState() => _AddPageState();
 }
 
 class _AddPageState extends State<AddPage> {
+  var check_user = 0;
+  var new_post = 0;
+
   final cause = TextEditingController();
   final symptom = TextEditingController();
   // final category = TextEditingController();
@@ -21,6 +25,25 @@ class _AddPageState extends State<AddPage> {
   final _formKey = GlobalKey<FormState>();
 
   int _radioValue = 0;
+
+  @override
+  initState() {
+    super.initState();
+    // Add listeners to this class
+    FirebaseDatabase.instance.reference().once().then((DataSnapshot data) {
+      for (check_user; check_user < data.value.length; check_user++) {
+        if (data.value[check_user] != null) {
+          if (data.value[check_user]['user']['name'] == widget.userinfo.displayname) {
+            //ไว้เชคuser
+            break;
+          }
+        }
+      }
+    
+      new_post = data.value[check_user]['post'].length;
+
+    });
+  }
 
   void _handleRadioValueChange(int value) {
     setState(() {
@@ -60,11 +83,14 @@ class _AddPageState extends State<AddPage> {
           backgroundColor: Colors.red,
           onPressed: () {
             Currentpost.CAUSE = cause.text;
-        Currentpost.SYMPTOM = symptom.text;
-        Currentpost.DESCRIBE = describe.text;
-        Currentpost.CATEGORY = category;
+            Currentpost.SYMPTOM = symptom.text;
+            Currentpost.DESCRIBE = describe.text;
+            Currentpost.CATEGORY = category;
+            Currentpost.USER = widget.userinfo.displayname;
             Navigator.push(
-                context, MaterialPageRoute(builder: (context) => Addimage(widget.userinfo)));
+                context,
+                MaterialPageRoute(
+                    builder: (context) => Addimage(widget.userinfo)));
           },
           child: Icon(Icons.image),
         ),
@@ -164,6 +190,17 @@ class _AddPageState extends State<AddPage> {
                         child: RaisedButton(
                             child: Text("Save"),
                             onPressed: () {
+                              FirebaseDatabase.instance
+                                  .reference()
+                                  .child(check_user.toString()).child("post").child(new_post.toString())
+                                  .set({
+                                  "cause": cause.text,
+                                  "symptom": symptom.text,
+                                  "category": category,
+                                  "describe": describe.text,
+                                  "image": "",
+                                });
+
                               Firestore.instance.runTransaction(
                                   (Transaction transaction) async {
                                 CollectionReference reference =
@@ -174,6 +211,8 @@ class _AddPageState extends State<AddPage> {
                                   "symptom": symptom.text,
                                   "category": category,
                                   "describe": describe.text,
+                                  "image": "",
+                                  "user":widget.userinfo.displayname,
                                 });
                                 cause.clear();
                                 symptom.clear();

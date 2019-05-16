@@ -22,6 +22,7 @@ class _PostPageState extends State<PostPage> {
         Currentpost.SYMPTOM = document['symptom'];
         Currentpost.DESCRIBE = document['describe'];
         Currentpost.CATEGORY = document['category'];
+        Currentpost.USER = document['user'];
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => Showpost()));
       },

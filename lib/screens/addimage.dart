@@ -10,30 +10,29 @@ import 'package:path/path.dart';
 import 'current_post.dart';
 import 'home_screen.dart';
 
-class Addimage extends StatefulWidget {//หน้าใส่รูปเข้าfirebase
-User userinfo;
+class Addimage extends StatefulWidget {
+  //หน้าใส่รูปเข้าfirebase
+  User userinfo;
   Addimage(this.userinfo);
   @override
-  State<StatefulWidget> createState() =>  new AddimageState();
-    // TODO: implement createState
+  State<StatefulWidget> createState() => new AddimageState();
+  // TODO: implement createState
 
 }
-  var post=[];
-  var user;
-  var check_user=0;
-  File image;
-  String filename;
 
-  
+var check_user = 0;
+var new_post =0;
+File image;
+String filename;
+
 class AddimageState extends State<Addimage> {
-
-
-  Future _getImage() async{
-    var selectedImage = await ImagePicker.pickImage(source: ImageSource.gallery);
+  Future _getImage() async {
+    var selectedImage =
+        await ImagePicker.pickImage(source: ImageSource.gallery);
 
     setState(() {
       image = selectedImage;
-      filename=basename(image.path);
+      filename = basename(image.path);
     });
   }
 
@@ -44,22 +43,15 @@ class AddimageState extends State<Addimage> {
     FirebaseDatabase.instance.reference().once().then((DataSnapshot data) {
       for (check_user; check_user < data.value.length; check_user++) {
         if (data.value[check_user] != null) {
-          if (data.value[check_user]['user']['name'] == 'poom') {//ไว้เชคuser
-            user=data.value[check_user]['user'];
+          if (data.value[check_user]['user']['name'] == widget.userinfo.displayname) {
+            //ไว้เชคuser
             break;
           }
-      }
-      }
-      if (data.value[check_user]['post']!=null) {
-        for (var q = 0; q < data.value[check_user]['post'].length; q++) {
-          post.add(data.value[check_user]['post'][q]);
         }
       }
-
-      // print(data.value['post'][0]);
+      new_post = data.value[check_user]['post'].length;
     });
   }
-  
 
   @override
   Widget build(BuildContext context) {
@@ -68,7 +60,7 @@ class AddimageState extends State<Addimage> {
         title: Text("flutter"),
       ),
       body: Center(
-        child: image==null?Text("select image"): uploadArea(context),
+        child: image == null ? Text("select image") : uploadArea(context),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: _getImage,
@@ -78,33 +70,35 @@ class AddimageState extends State<Addimage> {
     );
   }
 
-  Widget uploadArea(context){
+  Widget uploadArea(context) {
     return Column(
       children: <Widget>[
         Image.file(image, width: 100),
         RaisedButton(
-        color: Colors.yellowAccent,
-        child: Text('Add more Image'),
-        onPressed: (){
-          uploadImage();
-          _getImage();
-        },
-      ),
-      RaisedButton(
-        color: Colors.yellowAccent,
-        child: Text('Post'),
-        onPressed: (){
-          uploadImage();
-          Navigator.push(
-                context, MaterialPageRoute(builder: (context) => MainPage(widget.userinfo)));
-        },
-      )
-    ],
+          color: Colors.yellowAccent,
+          child: Text('Add more Image'),
+          onPressed: () {
+            uploadImage();
+            _getImage();
+          },
+        ),
+        RaisedButton(
+          color: Colors.yellowAccent,
+          child: Text('Post'),
+          onPressed: () {
+            uploadImage();
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => MainPage(widget.userinfo)));
+          },
+        )
+      ],
     );
-}
+  }
 }
 
-Future<String> uploadImage() async{
+Future<String> uploadImage() async {
   StorageReference ref = FirebaseStorage.instance.ref().child(filename);
   StorageUploadTask uploadTask = ref.putFile(image);
 
@@ -112,32 +106,29 @@ Future<String> uploadImage() async{
   var url = downUrl.toString();
 
   print("download URL : $url");
-   post.add({
-                                "image": url,
-                                  "cause": Currentpost.CAUSE,
-                                  "symptom": Currentpost.SYMPTOM,
-                                  "category": Currentpost.CATEGORY,
-                                  "describe": Currentpost.DESCRIBE,
-                              });
 
-                              FirebaseDatabase.instance
+  FirebaseDatabase.instance
                                   .reference()
-                                  .child(check_user.toString())
-                                  .set({"post": post, "user": user});
-  Firestore.instance.runTransaction(
-                                  (Transaction transaction) async {
-                                CollectionReference reference =
-                                    Firestore.instance.collection('post');
-
-                                await reference.add({
-                                  "image": url,
+                                  .child(check_user.toString()).child("post").child(new_post.toString())
+                                  .set({
                                   "cause": Currentpost.CAUSE,
                                   "symptom": Currentpost.SYMPTOM,
                                   "category": Currentpost.CATEGORY,
                                   "describe": Currentpost.DESCRIBE,
+                                  "image": url,
                                 });
-                                  });
-                                  post= [];
-                                  user=null;
-                                  image=null;
+
+  Firestore.instance.runTransaction((Transaction transaction) async {
+    CollectionReference reference = Firestore.instance.collection('post');
+
+    await reference.add({
+      "image": url,
+      "cause": Currentpost.CAUSE,
+      "symptom": Currentpost.SYMPTOM,
+      "category": Currentpost.CATEGORY,
+      "describe": Currentpost.DESCRIBE,
+      "user":Currentpost.USER,
+    });
+  });
+  image = null;
 }
