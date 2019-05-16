@@ -6,6 +6,7 @@ import 'current_post.dart';
 
 
 class PostPage extends StatefulWidget {
+  
   PostPage({Key key}) : super(key: key);
 
   _PostPageState createState() => _PostPageState();

@@ -101,7 +101,7 @@ class ShowpostState extends State<Showpost> {
                                   .reference()
                                   .child(check_user.toString()).child("post").child(check_post.toString()).child("comment").child(new_com.toString())
                                   .set(commentCon.text);
-                                  commentCon.dispose();
+                                  // commentCon.dispose();
                             })
                 ],
               ),

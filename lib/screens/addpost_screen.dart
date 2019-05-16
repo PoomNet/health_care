@@ -6,6 +6,7 @@ import 'package:myapp/data/users.dart';
 
 import 'addimage.dart';
 import 'current_post.dart';
+import 'home_screen.dart';
 
 class AddPage extends StatefulWidget {
   User userinfo;
@@ -219,7 +220,10 @@ class _AddPageState extends State<AddPage> {
                                 // category.clear();
                                 describe.clear();
                               });
-                              Navigator.pop(context);
+                              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => MainPage(widget.userinfo)));
                             }))
                   ],
                 )
