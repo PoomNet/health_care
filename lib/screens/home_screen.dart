@@ -11,6 +11,8 @@ import 'package:myapp/screens/map_screen.dart';
 import 'package:myapp/screens/post_screens.dart';
 import 'package:myapp/screens/profile_screen.dart';
 
+import '../map.dart';
+
 GoogleSignIn _googleSignIn = new GoogleSignIn(
   scopes: <String>[
     'email',
@@ -39,7 +41,7 @@ class _MainPageState extends State<MainPage> {
   
 
   int currentIndex = 0;
-  List pages = [PostPage(), MyMapPage(), ProfilePage()];
+  List pages = [PostPage(), Map_Screen(), ProfilePage()];
 
   @override
   Widget build(BuildContext context) {
