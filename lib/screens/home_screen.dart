@@ -40,36 +40,35 @@ class _MainPageState extends State<MainPage> {
     Navigator.of(context)
         .pushReplacement(MaterialPageRoute(builder: (context) => LoginPage()));
   }
-  //   @override
-  // initState() {
-  //   super.initState();
-  //   // Add listeners to this class
-  //   FirebaseDatabase.instance.reference().once().then((DataSnapshot data) {
-  //     print(data.value.length);
-  //     for (check_user; check_user < data.value.length; check_user++) {
-  //       print(data.value.length.runtimeType);
-  //       print(check_user < data.value.length);
-  //       print(check_user);
-  //       if (data.value[check_user] != null) {
-  //         if (data.value[check_user]['user']['name'] == "widget.userinfo.displayname") {//ใส่ชื่อuserไว้เชคว่ามีแล้วหรือยัง
-  //           //ไว้เชคuser
-  //           break;
-  //         }
-  //         else if(check_user==data.value.length-1){
-  //           FirebaseDatabase.instance
-  //                                 .reference()
-  //                                 .child((check_user+1).toString()).child("user")
-  //                                 .set({
-  //                                 "name": "eiei zaza",//ใส่ข้อมูลuser
-  //                               });
-  //           break;
-  //         }
-  //       }
-  //     }
+    @override
+  initState() {
+    super.initState();
+    // Add listeners to this class
+    FirebaseDatabase.instance.reference().once().then((DataSnapshot data) {
+      print(data.value.length);
+      for (check_user; check_user < data.value.length; check_user++) {
+        print(data.value.length.runtimeType);
+        print(check_user < data.value.length);
+        print(check_user);
+        if (data.value[check_user] != null) {
+          if (data.value[check_user]['user']['name'] == widget.userinfo.displayname) {//ใส่ชื่อuserไว้เชคว่ามีแล้วหรือยัง
+            break;
+          }
+          else if(check_user==data.value.length-1){
+            FirebaseDatabase.instance
+                                  .reference()
+                                  .child((check_user+1).toString()).child("user")
+                                  .set({
+                                  "name": "eiei zaza",//ใส่ข้อมูลuser
+                                });
+            break;
+          }
+        }
+      }
 
-  //   });
+    });
     
-  // }
+  }
 
   
 
