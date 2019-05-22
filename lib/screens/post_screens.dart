@@ -67,8 +67,7 @@ class _PostPageState extends State<PostPage> {
         },
       );
     } else {
-      return Center(
-        child: Text("No Post Found"),
+      return Column(
       );
     }
   }

@@ -1,3 +1,4 @@
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/rendering.dart';
@@ -29,6 +30,7 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
+  var check_user=0;
   static final FacebookLogin facebookSignIn = new FacebookLogin();
 
   Future<Null> _handleSignOut() async {
@@ -38,6 +40,36 @@ class _MainPageState extends State<MainPage> {
     Navigator.of(context)
         .pushReplacement(MaterialPageRoute(builder: (context) => LoginPage()));
   }
+  //   @override
+  // initState() {
+  //   super.initState();
+  //   // Add listeners to this class
+  //   FirebaseDatabase.instance.reference().once().then((DataSnapshot data) {
+  //     print(data.value.length);
+  //     for (check_user; check_user < data.value.length; check_user++) {
+  //       print(data.value.length.runtimeType);
+  //       print(check_user < data.value.length);
+  //       print(check_user);
+  //       if (data.value[check_user] != null) {
+  //         if (data.value[check_user]['user']['name'] == "widget.userinfo.displayname") {//ใส่ชื่อuserไว้เชคว่ามีแล้วหรือยัง
+  //           //ไว้เชคuser
+  //           break;
+  //         }
+  //         else if(check_user==data.value.length-1){
+  //           FirebaseDatabase.instance
+  //                                 .reference()
+  //                                 .child((check_user+1).toString()).child("user")
+  //                                 .set({
+  //                                 "name": "eiei zaza",//ใส่ข้อมูลuser
+  //                               });
+  //           break;
+  //         }
+  //       }
+  //     }
+
+  //   });
+    
+  // }
 
   
 

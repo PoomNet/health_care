@@ -32,10 +32,17 @@ class _AddPageState extends State<AddPage> {
     super.initState();
     // Add listeners to this class
     FirebaseDatabase.instance.reference().once().then((DataSnapshot data) {
+      print(data.value.length);
       for (check_user; check_user < data.value.length; check_user++) {
+        print(data.value.length.runtimeType);
+        print(check_user < data.value.length);
+        print(check_user);
         if (data.value[check_user] != null) {
           if (data.value[check_user]['user']['name'] == widget.userinfo.displayname) {
             //ไว้เชคuser
+            break;
+          }
+          else if(check_user==data.value.length-1){
             break;
           }
         }
@@ -45,6 +52,8 @@ class _AddPageState extends State<AddPage> {
 
     });
   }
+
+
 
   void _handleRadioValueChange(int value) {
     setState(() {
