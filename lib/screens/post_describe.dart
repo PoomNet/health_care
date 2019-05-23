@@ -100,9 +100,13 @@ class ShowpostState extends State<Showpost> {
     if (Currentpost.IMAGE == "") {
       return Column();
     } else {
-      return Image.network(Currentpost.IMAGE,width: 100,);
+      return Image.network(
+        Currentpost.IMAGE,
+        width: 100,
+      );
     }
   }
+
 
   Widget build(BuildContext context) {
     return Scaffold(
