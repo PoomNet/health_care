@@ -2,7 +2,7 @@ import 'package:google_maps_webservice/places.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-const kGoogleApiKey = "API-KEY";
+const kGoogleApiKey = "AIzaSyBp8QFmN7TrLKiVFhlSMgOlek7tERyDyKM";
 GoogleMapsPlaces _places = GoogleMapsPlaces(apiKey: kGoogleApiKey);
 
 class PlaceDetailWidget extends StatefulWidget {
@@ -237,4 +237,4 @@ class PlaceDetailState extends State<PlaceDetailWidget> {
       children: list,
     );
   }
-}
+} 
