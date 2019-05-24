@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../services/authentication.dart';
+import 'package:myapp/services/authentication.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 FirebaseAuth a;
@@ -24,7 +24,7 @@ class _LoginSignUpPageState extends State<LoginSignUpPage> {
   // String _km;
   // String _picture;
   // String _step;
-  // String _username;
+  // String _usernam 
 
 
   // Initial form is login form
