@@ -12,6 +12,7 @@ import 'package:myapp/screens/login_screen.dart';
 import 'package:myapp/screens/map_screen.dart';
 import 'package:myapp/screens/post_screens.dart';
 import 'package:myapp/screens/profile_screen.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../map.dart';
 
@@ -22,13 +23,14 @@ GoogleSignIn _googleSignIn = new GoogleSignIn(
 );
 
 class MainPage extends StatefulWidget {
-  final User userinfo;
+  
   MainPage({
     Key key, this.userinfo
     
     }
     ) 
     : super(key: key);
+    final User userinfo;
   
   
   @override
@@ -37,6 +39,17 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage> {
   var check_user=0;
+  
+  void getdata(){
+    Firestore _store = Firestore.instance;
+  _store.collection('register').document(widget.userinfo.email).get().then((doc){
+    widget.userinfo.displayname = doc.data['name'];
+    print("--------------------");
+    print(doc.data);
+    print("--------------------");
+  });
+  }
+  
   static final FacebookLogin facebookSignIn = new FacebookLogin();
 
   Future<Null> _handleSignOut() async {
@@ -50,8 +63,12 @@ class _MainPageState extends State<MainPage> {
   initState() {
     super.initState();
     // Add listeners to this class
+    getdata();
     FirebaseDatabase.instance.reference().once().then((DataSnapshot data) {
       print(data.value.length);
+      print("This is "+widget.userinfo.email);
+      print(widget.userinfo.displayname);
+      
       for (check_user; check_user < data.value.length; check_user++) {
         print(data.value.length.runtimeType);
         print(check_user < data.value.length);

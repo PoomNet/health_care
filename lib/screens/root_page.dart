@@ -4,6 +4,7 @@ import 'package:myapp/services/authentication.dart';
 import 'package:myapp/screens/post_screens.dart';
 import 'package:myapp/screens/home_screen.dart';
 import 'package:myapp/data/users.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 class RootPage extends StatefulWidget {
   RootPage({this.auth});
   final BaseAuth auth;
@@ -65,6 +66,8 @@ class _RootPageState extends State<RootPage> {
     );
   }
 
+
+
   @override
   Widget build(BuildContext context) {
     switch (authStatus) {
@@ -79,8 +82,10 @@ class _RootPageState extends State<RootPage> {
         break;
       case AuthStatus.LOGGED_IN:
         if (_userId.length > 0 && _userId != null) {
+          user.email =_test;
           return new MainPage(
             userinfo: user
+
           );
         } else return _buildWaitingScreen();
         break;
