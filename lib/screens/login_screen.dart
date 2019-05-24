@@ -20,6 +20,8 @@ class _LoginSignUpPageState extends State<LoginSignUpPage> {
   String _email;
   String _password;
   String _errorMessage;
+  int type = 0;
+  String _name;
   // String _tree;
   // String _km;
   // String _picture;
@@ -63,12 +65,8 @@ class _LoginSignUpPageState extends State<LoginSignUpPage> {
           widget.auth.sendEmailVerification();
 
           Map<String, dynamic> data = <String, dynamic>{
-            "name": _email,
-            "id": 1,
-            "username": "",
-            "votes": 0,
-            "tree": 2,
-            "step": 0,
+            "email":_email,
+            "name": _name,
             "picture" : ""
           };
           documentReference.setData(data).whenComplete(() {
@@ -114,6 +112,7 @@ class _LoginSignUpPageState extends State<LoginSignUpPage> {
     setState(() {
       _formMode = FormMode.SIGNUP;
     });
+    this.type = 1;
   }
 
   void _changeFormToLogin() {
@@ -122,6 +121,7 @@ class _LoginSignUpPageState extends State<LoginSignUpPage> {
     setState(() {
       _formMode = FormMode.LOGIN;
     });
+    this.type = 0;
   }
 
   @override
@@ -129,7 +129,7 @@ class _LoginSignUpPageState extends State<LoginSignUpPage> {
     _isIos = Theme.of(context).platform == TargetPlatform.iOS;
     return new Scaffold(
         appBar: new AppBar(
-          title: new Text('Flutter login demo'),
+          title: new Text('Health Care'),
         ),
         body: Stack(
           children: <Widget>[
@@ -178,6 +178,7 @@ class _LoginSignUpPageState extends State<LoginSignUpPage> {
             children: <Widget>[
               // _showLogo(),
               _showEmailInput(),
+              _showNameInput(),
               _showPasswordInput(),
               _showPrimaryButton(),
               _showSecondaryButton(),
@@ -185,6 +186,30 @@ class _LoginSignUpPageState extends State<LoginSignUpPage> {
             ],
           ),
         ));
+  }
+
+  bool visible = false;
+  Widget _showNameInput() {
+    type==1? visible = true: visible = false;
+    return Visibility(
+      visible: visible,
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(10.0, 20.0, 10.0, 0.0),
+        child: new TextFormField(
+          maxLines: 1,
+          keyboardType: TextInputType.text,
+          autofocus: false,
+          decoration: new InputDecoration(
+              hintText: 'Name',
+              icon: new Icon(
+                Icons.person,
+                color: Colors.grey,
+              )),
+          validator: (value) => value.isEmpty ? 'Name can\'t be empty' : null,
+          onSaved: (value) => _name = value,
+        ),
+      ),
+    );
   }
 
   Widget _showErrorMessage() {

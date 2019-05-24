@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:myapp/screens/login_screen.dart';
 import 'package:myapp/services/authentication.dart';
 import 'package:myapp/screens/post_screens.dart';
+import 'package:myapp/screens/home_screen.dart';
+import 'package:myapp/data/users.dart';
 class RootPage extends StatefulWidget {
   RootPage({this.auth});
   final BaseAuth auth;
@@ -16,6 +18,7 @@ enum AuthStatus {
 
 class _RootPageState extends State<RootPage> {
   AuthStatus authStatus = AuthStatus.NOT_DETERMINED;
+  User user = User();
   String _userId = "";
   String _test ='';
   @override
@@ -76,12 +79,9 @@ class _RootPageState extends State<RootPage> {
         break;
       case AuthStatus.LOGGED_IN:
         if (_userId.length > 0 && _userId != null) {
-          // return new PostPage(
-          //   userId: _userId,
-          //   auth: widget.auth,
-          //   onSignedOut: _onSignedOut,
-          //   user: _test,
-          // );
+          return new MainPage(
+            userinfo: user
+          );
         } else return _buildWaitingScreen();
         break;
       default:

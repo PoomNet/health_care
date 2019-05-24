@@ -22,8 +22,14 @@ GoogleSignIn _googleSignIn = new GoogleSignIn(
 );
 
 class MainPage extends StatefulWidget {
-  User userinfo;
-  MainPage(this.userinfo);
+  final User userinfo;
+  MainPage({
+    Key key, this.userinfo
+    
+    }
+    ) 
+    : super(key: key);
+  
   
   @override
   _MainPageState createState() => _MainPageState();
@@ -114,17 +120,17 @@ class _MainPageState extends State<MainPage> {
     // Important: Remove any padding from the ListView.
     padding: EdgeInsets.zero,
     children: <Widget>[
-      UserAccountsDrawerHeader(
-        currentAccountPicture: CircleAvatar(
-          backgroundImage: NetworkImage(widget.userinfo.photoUrl),
-        // backgroundColor: Colors.white10,
-         ),
-         accountName: Text(widget.userinfo.displayname),
-         accountEmail: Text(widget.userinfo.email),
-         decoration: BoxDecoration(
-           image: DecorationImage(fit: BoxFit.cover, image: NetworkImage(widget.userinfo.photoUrl))
-         ),
-        ),
+      // UserAccountsDrawerHeader(
+      //   currentAccountPicture: CircleAvatar(
+      //     backgroundImage: NetworkImage(widget.userinfo.photoUrl),
+      //   // backgroundColor: Colors.white10,
+      //    ),
+      //    accountName: Text(widget.userinfo.displayname),
+      //    accountEmail: Text(widget.userinfo.email),
+      //    decoration: BoxDecoration(
+      //      image: DecorationImage(fit: BoxFit.cover, image: NetworkImage(widget.userinfo.photoUrl))
+      //    ),
+      //   ),
       
       ListTile(
         leading: Icon(Icons.home),

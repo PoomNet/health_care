@@ -15,6 +15,7 @@ class AddPage extends StatefulWidget {
 }
 
 class _AddPageState extends State<AddPage> {
+  User userinf2;
   var check_user = 0;
   var new_post = 0;
 
@@ -232,7 +233,7 @@ class _AddPageState extends State<AddPage> {
                               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => MainPage(widget.userinfo)));
+                    builder: (context) => MainPage(userinfo: userinf2,)));
                             }))
                   ],
                 )

@@ -26,6 +26,7 @@ File image;
 String filename;
 
 class AddimageState extends State<Addimage> {
+  User userinf2;
   Future _getImage() async {
     var selectedImage =
         await ImagePicker.pickImage(source: ImageSource.gallery);
@@ -90,7 +91,7 @@ class AddimageState extends State<Addimage> {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => MainPage(widget.userinfo)));
+                    builder: (context) => MainPage(userinfo: userinf2,)));
           },
         )
       ],
