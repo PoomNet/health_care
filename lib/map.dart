@@ -6,7 +6,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart' as LocationManager;
 import 'location.dart';
 
-const kGoogleApiKey = "API-KEY";
+const kGoogleApiKey = "AIzaSyBp8QFmN7TrLKiVFhlSMgOlek7tERyDyKM";
 GoogleMapsPlaces _places = GoogleMapsPlaces(apiKey: kGoogleApiKey);
 
 void main() {
@@ -46,28 +46,28 @@ class MapState extends State<Map_Screen> {
 
     return Scaffold(
         key: homeScaffoldKey,
-        appBar: AppBar(
-          title: const Text("Map Health Care"),
-          actions: <Widget>[
-            isLoading
-                ? IconButton(
-                    icon: Icon(Icons.timer),
-                    onPressed: () {},
-                  )
-                : IconButton(
-                    icon: Icon(Icons.refresh),
-                    onPressed: () {
-                      refresh();
-                    },
-                  ),
-            IconButton(
-              icon: Icon(Icons.search),
-              onPressed: () {
-                _handlePressButton();
-              },
-            ),
-          ],
-        ),
+        // appBar: AppBar(
+        //   title: const Text("Map Health Care"),
+        //   actions: <Widget>[
+        //     isLoading
+        //         ? IconButton(
+        //             icon: Icon(Icons.timer),
+        //             onPressed: () {},
+        //           )
+        //         : IconButton(
+        //             icon: Icon(Icons.refresh),
+        //             onPressed: () {
+        //               refresh();
+        //             },
+        //           ),
+        //     IconButton(
+        //       icon: Icon(Icons.search),
+        //       onPressed: () {
+        //         _handlePressButton();
+        //       },
+        //     ),
+        //   ],
+        // ),
         body: Column(
           children: <Widget>[
             Container(
@@ -102,16 +102,16 @@ class MapState extends State<Map_Screen> {
   }
 
   Future<LatLng> getUserLocation() async {
-    var currentLocation = <String, double>{};
+    // var currentLocation = <String, double>{};
     final location = LocationManager.Location();
     try {
-      currentLocation = await location.getLocation();
-      final lat = currentLocation["latitude"];
-      final lng = currentLocation["longitude"];
+      var currentLocation = await location.getLocation();
+      final lat = currentLocation.latitude;
+      final lng = currentLocation.longitude;
       final center = LatLng(lat, lng);
       return center;
     } on Exception {
-      currentLocation = null;
+      var currentLocation = null;
       return null;
     }
   }
