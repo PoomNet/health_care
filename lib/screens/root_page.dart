@@ -5,6 +5,7 @@ import 'package:myapp/screens/post_screens.dart';
 import 'package:myapp/screens/home_screen.dart';
 import 'package:myapp/data/users.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:myapp/screens/current_post.dart';
 class RootPage extends StatefulWidget {
   RootPage({this.auth});
   final BaseAuth auth;
@@ -36,6 +37,7 @@ class _RootPageState extends State<RootPage> {
       });
     });
   }
+
 
   void _onLoggedIn() {
     widget.auth.getCurrentUser().then((user){
@@ -83,6 +85,15 @@ class _RootPageState extends State<RootPage> {
       case AuthStatus.LOGGED_IN:
         if (_userId.length > 0 && _userId != null) {
           user.email =_test;
+          Firestore _store = Firestore.instance;
+   _store.collection('register')
+   .document(user.email).get().then((doc){
+    setState(() {
+      user.displayname = doc.data['name'];
+      Currentpost.USER=doc.data['name'];
+
+    });
+  });
           return new MainPage(
             userinfo: user
 

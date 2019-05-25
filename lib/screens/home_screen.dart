@@ -40,15 +40,7 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   var check_user=0;
   
-  void getdata(){
-    Firestore _store = Firestore.instance;
-  _store.collection('register').document(widget.userinfo.email).get().then((doc){
-    widget.userinfo.displayname = doc.data['name'];
-    print("--------------------");
-    print(doc.data);
-    print("--------------------");
-  });
-  }
+  
   
   static final FacebookLogin facebookSignIn = new FacebookLogin();
 
@@ -63,11 +55,13 @@ class _MainPageState extends State<MainPage> {
   initState() {
     super.initState();
     // Add listeners to this class
-    getdata();
     FirebaseDatabase.instance.reference().once().then((DataSnapshot data) {
       print(data.value.length);
       print("This is "+widget.userinfo.email);
-      print(widget.userinfo.displayname);
+      print(Currentpost.USER);
+      setState(() {
+        print(111111);
+      });
       
       for (check_user; check_user < data.value.length; check_user++) {
         print(data.value.length.runtimeType);
@@ -82,7 +76,7 @@ class _MainPageState extends State<MainPage> {
                                   .reference()
                                   .child((check_user+1).toString()).child("user")
                                   .set({
-                                  "name": "eiei zaza",//ใส่ข้อมูลuser
+                                  "name": Currentpost.USER  ,//ใส่ข้อมูลuser
                                 });
             break;
           }
@@ -100,8 +94,9 @@ class _MainPageState extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
+    // print(Currentpost.USER);
 
-    Currentpost.USER=widget.userinfo.displayname;
+    // Currentpost.USER=widget.userinfo.displayname;
 
     TextStyle myStyle = TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold);
 

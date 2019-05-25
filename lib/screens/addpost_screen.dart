@@ -44,6 +44,12 @@ class _AddPageState extends State<AddPage> {
             break;
           }
           else if(check_user==data.value.length-1){
+            FirebaseDatabase.instance
+                                  .reference()
+                                  .child((check_user+1).toString()).child("user")
+                                  .set({
+                                  "name": Currentpost.USER  ,//ใส่ข้อมูลuser
+                                });
             break;
           }
         }
