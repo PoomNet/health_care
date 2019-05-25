@@ -59,7 +59,7 @@ class _MainPageState extends State<MainPage> {
                                   .reference()
                                   .child((check_user+1).toString()).child("user")
                                   .set({
-                                  "name": "eiei zaza",//ใส่ข้อมูลuser
+                                  "name": widget.userinfo.displayname,//ใส่ข้อมูลuser
                                 });
             break;
           }
