@@ -18,7 +18,7 @@ class Showpost extends StatefulWidget {
 
 class ShowpostState extends State<Showpost> {
   DataAccess dataAccess = DataAccess();
-  var checksql=0;
+  var checksql = 0;
   var com = [];
   var comment = [];
   var post = [];
@@ -29,18 +29,19 @@ class ShowpostState extends State<Showpost> {
   var aaa = 0;
   final commentCon = TextEditingController();
 
-  void check() async{
+  void check() async {
     await dataAccess.open();
 
-                  dataAccess.getAllUser().then((r) {
-        for (var i = 0; i < r.length; i++) {
-            if(r[i].cause==Currentpost.CAUSE){
-              setState(() {
-                checksql =1;
-              });
-            }
-      }});
-      // await dataAccess.close();
+    dataAccess.getAllUser().then((r) {
+      for (var i = 0; i < r.length; i++) {
+        if (r[i].cause == Currentpost.CAUSE) {
+          setState(() {
+            checksql = 1;
+          });
+        }
+      }
+    });
+    // await dataAccess.close();
   }
 
   Widget _createTodoItemWidget(var item) {
@@ -125,6 +126,62 @@ class ShowpostState extends State<Showpost> {
     }
   }
 
+  Widget buildlike() {
+    if (checksql==1) {
+      return Column();
+    } else {
+      return RaisedButton(
+                child: Text("like post"),
+                onPressed: () async {
+                  await dataAccess.open();
+
+                  dataAccess.getAllUser().then((r) {
+                    for (var i = 0; i < r.length; i++) {
+                      if (r[i].cause == Currentpost.CAUSE) {
+                        checksql = 1;
+                      }
+                    }
+                  });
+                  if (checksql == 0) {
+                    ProfileItem data =
+                        ProfileItem(); //สร้างไว้สร้างข้อมูลใหม่ไม่ต้องมีidจะสร้างให้เอง
+                    data.cause = Currentpost.CAUSE;
+                    data.symptom = Currentpost.SYMPTOM;
+                    data.category = Currentpost.CATEGORY;
+                    data.describe = Currentpost.DESCRIBE;
+                    data.user = Currentpost.USER;
+                    data.image = Currentpost.IMAGE;
+                    await dataAccess.insertUser(data);
+                  } else {
+                    print("cant add");
+                  }
+                  setState(() {
+                    checksql=1;
+                  });
+                });
+    }
+  }
+  Widget buildunlike() {
+    if (checksql==1) {
+       RaisedButton(
+                child: Text("unlike post"),
+                onPressed: () async {
+                  await dataAccess.open();
+                  dataAccess.getAllUser().then((r) {
+                    for (var i = 0; i < r.length; i++) {
+                      if (r[i].cause == Currentpost.CAUSE) {
+                        dataAccess.delete(r[i].id);
+                      }
+                    }
+                  });
+                  setState(() {
+                    checksql=0;
+                  });
+                });
+    } else {
+      return Column();
+    }
+  }
 
   Widget build(BuildContext context) {
     return Scaffold(
@@ -181,54 +238,8 @@ class ShowpostState extends State<Showpost> {
                     commentCon.clear();
                   });
                 }),
-            RaisedButton(
-                child: Text("like post"),
-                onPressed: () async {
-                  await dataAccess.open();
-
-                  dataAccess.getAllUser().then((r) {
-        for (var i = 0; i < r.length; i++) {
-            if(r[i].cause==Currentpost.CAUSE){
-              print(Currentpost.CAUSE);
-              print(checksql);
-              print(r[1].cause);
-              checksql =1;
-
-            }
-      }
-      }
-      );
-      if(checksql==0){
-        ProfileItem data =
-                      ProfileItem(); //สร้างไว้สร้างข้อมูลใหม่ไม่ต้องมีidจะสร้างให้เอง
-                  data.cause = Currentpost.CAUSE;
-                  data.symptom = Currentpost.SYMPTOM;
-                  data.category = Currentpost.CATEGORY;
-                  data.describe = Currentpost.DESCRIBE;
-                  data.user = Currentpost.USER;
-                  data.image = Currentpost.IMAGE;
-                  await dataAccess.insertUser(data);
-                  print(11111111);
-      }
-      else{
-        print("cant add");
-      }
-
-                  
-                }),
-
-
-            RaisedButton(
-                child: Text("unlike post"),
-                onPressed: () async {
-                  await dataAccess.open();
-                  dataAccess.getAllUser().then((r) {
-        for (var i = 0; i < r.length; i++) {
-            if(r[i].cause==Currentpost.CAUSE){
-              dataAccess.delete(r[i].id);
-            }
-      }});
-                }),
+            buildlike(),
+            buildunlike(),
           ],
         ));
   }
