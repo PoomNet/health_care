@@ -7,6 +7,7 @@ import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:myapp/data/users.dart';
 import 'package:myapp/screens/addpost_screen.dart';
+import 'package:myapp/screens/current_login.dart';
 import 'package:myapp/screens/current_post.dart';
 import 'package:myapp/screens/login_screen.dart';
 import 'package:myapp/screens/map_screen.dart';
@@ -76,7 +77,7 @@ class _MainPageState extends State<MainPage> {
                                   .reference()
                                   .child((check_user+1).toString()).child("user")
                                   .set({
-                                  "name": Currentpost.USER  ,//ใส่ข้อมูลuser
+                                  "name": Currentlogin.USER  ,//ใส่ข้อมูลuser
                                 });
             break;
           }

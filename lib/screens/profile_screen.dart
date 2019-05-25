@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:myapp/screens/current_login.dart';
 import 'package:myapp/screens/current_post.dart';
 import 'package:myapp/data/users.dart';
+import 'package:myapp/screens/likepost.dart';
+import 'package:myapp/screens/show_user_post.dart';
 
 class ProfilePage extends StatefulWidget {
   ProfilePage({Key key}) : super(key: key);
@@ -15,12 +18,17 @@ class _ProfilePageState extends State<ProfilePage> {
     return Scaffold(
        body: Center(child: Column(
          children: <Widget>[
-           Text(Currentpost.EMAIL),
-           Text(Currentpost.USER),
+           Text(Currentlogin.EMAIL),
+           Text(Currentlogin.USER),
            RaisedButton(child: Text("YOUR POST"),
-           onPressed: (){},),
+           onPressed: (){
+            //  UserPostPage
+            Navigator.push(context, MaterialPageRoute(builder: (context) => UserPostPage()));
+           },),
            RaisedButton(child: Text("The post u like"),
-           onPressed: (){},)
+           onPressed: (){
+             Navigator.push(context, MaterialPageRoute(builder: (context) => LikePostPage()));
+           },)
          ],
        )),
     );

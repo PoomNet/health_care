@@ -2,13 +2,14 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:myapp/data/users.dart';
+import 'package:myapp/screens/current_login.dart';
 import 'package:myapp/screens/post_describe.dart';
 
 import 'current_post.dart';
 
 class UserPostPage extends StatefulWidget {
   User userinfo;
-  UserPostPage(this.userinfo);
+  UserPostPage();
 
   _PostPageState createState() => _PostPageState();
 }
@@ -23,7 +24,7 @@ class _PostPageState extends State<UserPostPage> {
 
 
   Widget _buildPost(BuildContext context, DocumentSnapshot document) {
-    if (document['user'] == widget.userinfo.displayname) {
+    if (document['user'] == Currentlogin.USER) {
       var check_user = 0;
       var check_post = 0;
       return Card(

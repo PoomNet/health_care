@@ -3,6 +3,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:myapp/data/users.dart';
+import 'package:myapp/screens/current_login.dart';
 
 import 'addimage.dart';
 import 'current_post.dart';
@@ -48,7 +49,7 @@ class _AddPageState extends State<AddPage> {
                                   .reference()
                                   .child((check_user+1).toString()).child("user")
                                   .set({
-                                  "name": Currentpost.USER  ,//ใส่ข้อมูลuser
+                                  "name": Currentlogin.USER  ,//ใส่ข้อมูลuser
                                 });
             break;
           }

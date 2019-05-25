@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:myapp/screens/current_login.dart';
 import 'package:myapp/screens/login_screen.dart';
 import 'package:myapp/services/authentication.dart';
 import 'package:myapp/screens/post_screens.dart';
@@ -90,8 +91,9 @@ class _RootPageState extends State<RootPage> {
    .document(user.email).get().then((doc){
     setState(() {
       user.displayname = doc.data['name'];
-      Currentpost.USER=doc.data['name'];
-      Currentpost.EMAIL=doc.data['email'];
+      Currentlogin.USER=doc.data['name'];
+      Currentlogin.EMAIL=doc.data['email'];
+      
 
     });
   });

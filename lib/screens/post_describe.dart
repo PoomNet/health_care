@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:myapp/screens/sqlpost.dart';
 import 'package:path/path.dart';
 
 import 'current_post.dart';
@@ -16,6 +17,7 @@ class Showpost extends StatefulWidget {
 }
 
 class ShowpostState extends State<Showpost> {
+  DataAccess dataAccess = DataAccess();
   var com = [];
   var comment = [];
   var post = [];
@@ -26,6 +28,18 @@ class ShowpostState extends State<Showpost> {
   var aaa = 0;
   final commentCon = TextEditingController();
 
+  void check() async{
+    await dataAccess.open();
+
+                  dataAccess.getAllUser().then((r) {
+        for (var i = 0; i < r.length; i++) {
+            if(r[i].cause==Currentpost.CAUSE){
+              print(r[i]);
+            }
+      }});
+      // await dataAccess.close();
+  }
+
   Widget _createTodoItemWidget(var item) {
     return ListTile(
       title: Text(item),
@@ -35,6 +49,7 @@ class ShowpostState extends State<Showpost> {
   @override
   initState() {
     super.initState();
+    check();
     // Add listeners to this class
     FirebaseDatabase.instance.reference().once().then((DataSnapshot data) {
       for (check_user; check_user < data.value.length; check_user++) {
@@ -107,7 +122,6 @@ class ShowpostState extends State<Showpost> {
     }
   }
 
-
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
@@ -146,7 +160,7 @@ class ShowpostState extends State<Showpost> {
                   }
                 }),
             RaisedButton(
-                child: Text("Save"),
+                child: Text("comment"),
                 onPressed: () {
                   FirebaseDatabase.instance
                       .reference()
@@ -162,6 +176,41 @@ class ShowpostState extends State<Showpost> {
                   setState(() {
                     commentCon.clear();
                   });
+                }),
+            RaisedButton(
+                child: Text("like post"),
+                onPressed: () async {
+                  await dataAccess.open();
+
+                  dataAccess.getAllUser().then((r) {
+        for (var i = 0; i < r.length; i++) {
+            if(r[i].cause==Currentpost.CAUSE){
+              print(r[i]);
+            }
+      }});
+
+                  ProfileItem data =
+                      ProfileItem(); //สร้างไว้สร้างข้อมูลใหม่ไม่ต้องมีidจะสร้างให้เอง
+                  data.cause = Currentpost.CAUSE;
+                  data.symptom = Currentpost.SYMPTOM;
+                  data.category = Currentpost.CATEGORY;
+                  data.describe = Currentpost.DESCRIBE;
+                  data.user = Currentpost.USER;
+                  data.image = Currentpost.IMAGE;
+                  print(data);
+                  await dataAccess.insertUser(data);
+                  print(11111111);
+                }),
+            RaisedButton(
+                child: Text("unlike post"),
+                onPressed: () async {
+                  await dataAccess.open();
+                  dataAccess.getAllUser().then((r) {
+        for (var i = 0; i < r.length; i++) {
+            if(r[i].cause==Currentpost.CAUSE){
+              dataAccess.delete(r[i].id);
+            }
+      }});
                 }),
           ],
         ));
