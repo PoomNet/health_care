@@ -18,6 +18,7 @@ class Showpost extends StatefulWidget {
 
 class ShowpostState extends State<Showpost> {
   DataAccess dataAccess = DataAccess();
+  var checksql=0;
   var com = [];
   var comment = [];
   var post = [];
@@ -34,7 +35,9 @@ class ShowpostState extends State<Showpost> {
                   dataAccess.getAllUser().then((r) {
         for (var i = 0; i < r.length; i++) {
             if(r[i].cause==Currentpost.CAUSE){
-              print(r[i]);
+              setState(() {
+                checksql =1;
+              });
             }
       }});
       // await dataAccess.close();
@@ -122,6 +125,7 @@ class ShowpostState extends State<Showpost> {
     }
   }
 
+
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
@@ -185,11 +189,17 @@ class ShowpostState extends State<Showpost> {
                   dataAccess.getAllUser().then((r) {
         for (var i = 0; i < r.length; i++) {
             if(r[i].cause==Currentpost.CAUSE){
-              print(r[i]);
-            }
-      }});
+              print(Currentpost.CAUSE);
+              print(checksql);
+              print(r[1].cause);
+              checksql =1;
 
-                  ProfileItem data =
+            }
+      }
+      }
+      );
+      if(checksql==0){
+        ProfileItem data =
                       ProfileItem(); //สร้างไว้สร้างข้อมูลใหม่ไม่ต้องมีidจะสร้างให้เอง
                   data.cause = Currentpost.CAUSE;
                   data.symptom = Currentpost.SYMPTOM;
@@ -197,10 +207,17 @@ class ShowpostState extends State<Showpost> {
                   data.describe = Currentpost.DESCRIBE;
                   data.user = Currentpost.USER;
                   data.image = Currentpost.IMAGE;
-                  print(data);
                   await dataAccess.insertUser(data);
                   print(11111111);
+      }
+      else{
+        print("cant add");
+      }
+
+                  
                 }),
+
+
             RaisedButton(
                 child: Text("unlike post"),
                 onPressed: () async {
