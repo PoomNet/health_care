@@ -91,6 +91,7 @@ class _RootPageState extends State<RootPage> {
     setState(() {
       user.displayname = doc.data['name'];
       Currentpost.USER=doc.data['name'];
+      Currentpost.EMAIL=doc.data['email'];
 
     });
   });
