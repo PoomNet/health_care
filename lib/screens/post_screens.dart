@@ -171,64 +171,71 @@ class _PostPageState extends State<PostPage> {
     if (category == "all") {
       var check_user = 0;
       var check_post = 0;
-      return Card(
-        color: Colors.pink[50],
-        margin: const EdgeInsets.all(10),
-          child: ListTile(
-              leading: Icon(Icons.person),
-              trailing: Icon(Icons.keyboard_arrow_right),
-        title: Padding(
-          padding: const EdgeInsets.only(bottom: 10),
-          child: Row(
+      return Container(
+        height: 110,
+        child: Card(
+        
+        shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20.0),
+                ),
+          color: Colors.pink[50],
+          margin: const EdgeInsets.all(10),
+            child: ListTile(
+                leading: Icon(Icons.person),
+                trailing: Icon(Icons.keyboard_arrow_right),
+          title: Padding(
+            padding: const EdgeInsets.only(bottom: 10),
+            child: Row(
+              children: <Widget>[
+                Text('Topic : ',style: TextStyle(fontWeight: FontWeight.bold)),
+                Text(document['cause']),
+              ],
+            ),
+          ),
+          subtitle: Row(
             children: <Widget>[
-              Text('Topic : ',style: TextStyle(fontWeight: FontWeight.bold)),
-              Text(document['cause']),
+              Text('Description : ',style: TextStyle(fontWeight: FontWeight.bold)),
+              Text(document['symptom']),
             ],
           ),
-        ),
-        subtitle: Row(
-          children: <Widget>[
-            Text('Description : ',style: TextStyle(fontWeight: FontWeight.bold)),
-            Text(document['symptom']),
-          ],
-        ),
-        onTap: () {
-          Currentpost.CAUSE = document['cause'];
-          Currentpost.SYMPTOM = document['symptom'];
-          Currentpost.DESCRIBE = document['describe'];
-          Currentpost.CATEGORY = document['category'];
-          Currentpost.USER = document['user'];
-          Currentpost.IMAGE = document['image'];
-          FirebaseDatabase.instance
-              .reference()
-              .once()
-              .then((DataSnapshot data) {
-            for (check_user; check_user < data.value.length; check_user++) {
-              if (data.value[check_user] != null) {
-                if (data.value[check_user]['user']['name'] ==
-                    Currentpost.USER) {
-                  user = data.value[check_user]['user'];
-                  break;
+          onTap: () {
+            Currentpost.CAUSE = document['cause'];
+            Currentpost.SYMPTOM = document['symptom'];
+            Currentpost.DESCRIBE = document['describe'];
+            Currentpost.CATEGORY = document['category'];
+            Currentpost.USER = document['user'];
+            Currentpost.IMAGE = document['image'];
+            FirebaseDatabase.instance
+                .reference()
+                .once()
+                .then((DataSnapshot data) {
+              for (check_user; check_user < data.value.length; check_user++) {
+                if (data.value[check_user] != null) {
+                  if (data.value[check_user]['user']['name'] ==
+                      Currentpost.USER) {
+                    user = data.value[check_user]['user'];
+                    break;
+                  }
                 }
               }
-            }
-            if (data.value[check_user]['post'] != null) {
-              for (check_post;
-                  check_post < data.value[check_user]['post'].length;
-                  check_post++) {
-                if (data.value[check_user]['post'][check_post]['describe'] ==
-                    Currentpost.DESCRIBE) {
-                  break;
+              if (data.value[check_user]['post'] != null) {
+                for (check_post;
+                    check_post < data.value[check_user]['post'].length;
+                    check_post++) {
+                  if (data.value[check_user]['post'][check_post]['describe'] ==
+                      Currentpost.DESCRIBE) {
+                    break;
+                  }
                 }
               }
-            }
-            comment = data.value[check_user]['post'][check_post]['comment'];
-            Currentpost.COMMENT = comment;
-          });
-          Navigator.push(
-              context, MaterialPageRoute(builder: (context) => Showpost()));
-        },
-      ));
+              comment = data.value[check_user]['post'][check_post]['comment'];
+              Currentpost.COMMENT = comment;
+            });
+            Navigator.push(
+                context, MaterialPageRoute(builder: (context) => Showpost()));
+          },
+        )),
+      );
     } else if (category == document['category']) {
       var check_user = 0;
       var check_post = 0;
