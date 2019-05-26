@@ -310,12 +310,13 @@ class _PostPageState extends State<PostPage> {
       children: <Widget>[
         
           _buildfilterBut(),
+          _buildRadio(),
                                Card(
       
       child: Image.asset(
         'assets/pic/login-bg.jpg',
-        height: 200,
-        fit: BoxFit.cover,
+        fit: BoxFit.fill,
+        height: 100,
       ),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10.0),
@@ -324,7 +325,6 @@ class _PostPageState extends State<PostPage> {
       margin: EdgeInsets.all(10),
     ),
             
-          _buildRadio(),
           StreamBuilder(
             stream: Firestore.instance.collection('post').snapshots(),
             builder: (context, snapshot) {
