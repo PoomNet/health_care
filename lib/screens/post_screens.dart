@@ -355,7 +355,7 @@ class _PostPageState extends State<PostPage> {
                       shrinkWrap: true,
                       itemCount: snapshot.data.documents.length,
                       itemBuilder: (context, index) =>
-                          _buildPost(context, snapshot.data.documents[index]),
+                          _buildPost(context, snapshot.data.documents[snapshot.data.documents.length-index-1]),
                     ));
               }
             },
