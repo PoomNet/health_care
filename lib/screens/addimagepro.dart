@@ -78,14 +78,6 @@ class AddimageState extends State<Addimagepro> {
         Image.file(image, width: 100),
         RaisedButton(
           color: Colors.yellowAccent,
-          child: Text('Add more Image'),
-          onPressed: () {
-            uploadImage();
-            _getImage();
-          },
-        ),
-        RaisedButton(
-          color: Colors.yellowAccent,
           child: Text('Post'),
           onPressed: () {
             uploadImage();
