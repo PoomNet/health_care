@@ -88,7 +88,7 @@ class AddimageState extends State<Addimage> {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => MainPage(userinfo: userinf2,)));
+                    builder: (context) => MainPage(userinfo: widget.userinfo)));
           },
         )
       ],

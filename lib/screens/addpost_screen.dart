@@ -319,7 +319,7 @@ class _AddPageState extends State<AddPage> {
                                             context,
                                             MaterialPageRoute(
                                                 builder: (context) => MainPage(
-                                                      userinfo: userinf2,
+                                                      userinfo: widget.userinfo,
                                                     )));
                                       }
                                     }))
