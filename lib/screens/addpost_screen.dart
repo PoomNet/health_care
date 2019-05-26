@@ -97,23 +97,23 @@ class _AddPageState extends State<AddPage> {
         resizeToAvoidBottomPadding: true,
         appBar: AppBar(
           title: Text("Create post"),
-          actions: <Widget>[
-            
-          ],
+          actions: <Widget>[],
           centerTitle: true,
         ),
         floatingActionButton: FloatingActionButton(
           backgroundColor: Colors.red,
           onPressed: () {
-            Currentpost.CAUSE = cause.text;
-            Currentpost.SYMPTOM = symptom.text;
-            Currentpost.DESCRIBE = describe.text;
-            Currentpost.CATEGORY = category;
-            Currentpost.USER = widget.userinfo.displayname;
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => Addimage(widget.userinfo)));
+            if (_formKey.currentState.validate()) {
+              Currentpost.CAUSE = cause.text;
+              Currentpost.SYMPTOM = symptom.text;
+              Currentpost.DESCRIBE = describe.text;
+              Currentpost.CATEGORY = category;
+              Currentpost.USER = widget.userinfo.displayname;
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => Addimage(widget.userinfo)));
+            }
           },
           child: Icon(Icons.image),
         ),
@@ -274,7 +274,7 @@ class _AddPageState extends State<AddPage> {
                           children: <Widget>[
                             Expanded(
                                 child: RaisedButton.icon(
-                                  icon: Icon(Icons.send),
+                                    icon: Icon(Icons.send),
                                     label: Text("Post"),
                                     textColor: Colors.white,
                                     color: Colors.greenAccent,
@@ -282,44 +282,46 @@ class _AddPageState extends State<AddPage> {
                                         borderRadius:
                                             BorderRadius.circular(20.0)),
                                     onPressed: () {
-                                      FirebaseDatabase.instance
-                                          .reference()
-                                          .child(check_user.toString())
-                                          .child("post")
-                                          .child(new_post.toString())
-                                          .set({
-                                        "cause": cause.text,
-                                        "symptom": symptom.text,
-                                        "category": category,
-                                        "describe": describe.text,
-                                        "image": "",
-                                      });
-
-                                      Firestore.instance.runTransaction(
-                                          (Transaction transaction) async {
-                                        CollectionReference reference =
-                                            Firestore.instance
-                                                .collection('post');
-
-                                        await reference.add({
+                                      if (_formKey.currentState.validate()) {
+                                        FirebaseDatabase.instance
+                                            .reference()
+                                            .child(check_user.toString())
+                                            .child("post")
+                                            .child(new_post.toString())
+                                            .set({
                                           "cause": cause.text,
                                           "symptom": symptom.text,
                                           "category": category,
                                           "describe": describe.text,
                                           "image": "",
-                                          "user": widget.userinfo.displayname,
                                         });
-                                        cause.clear();
-                                        symptom.clear();
-                                        // category.clear();
-                                        describe.clear();
-                                      });
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) => MainPage(
-                                                    userinfo: userinf2,
-                                                  )));
+
+                                        Firestore.instance.runTransaction(
+                                            (Transaction transaction) async {
+                                          CollectionReference reference =
+                                              Firestore.instance
+                                                  .collection('post');
+
+                                          await reference.add({
+                                            "cause": cause.text,
+                                            "symptom": symptom.text,
+                                            "category": category,
+                                            "describe": describe.text,
+                                            "image": "",
+                                            "user": widget.userinfo.displayname,
+                                          });
+                                          cause.clear();
+                                          symptom.clear();
+                                          // category.clear();
+                                          describe.clear();
+                                        });
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) => MainPage(
+                                                      userinfo: userinf2,
+                                                    )));
+                                      }
                                     }))
                           ],
                         )
