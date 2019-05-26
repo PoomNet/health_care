@@ -80,6 +80,11 @@ class AddimageState extends State<Addimage> {
           child: Text('Post'),
           onPressed: () {
             uploadImage();
+            Currentpost.CAUSE = "";
+                Currentpost.SYMPTOM = "";
+                Currentpost.DESCRIBE = "";
+                Currentpost.USER = "";
+                Currentpost.COMMENT = null;
             Navigator.push(
                 context,
                 MaterialPageRoute(

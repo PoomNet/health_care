@@ -98,6 +98,9 @@ class _MainPageState extends State<MainPage> {
   _signOut() async {
     await widget.auth.signOut();
     widget.onSignedOut();
+    Currentlogin.EMAIL = "";
+    Currentlogin.USER = "";
+    Currentlogin.IMAGE = "";
   }
 
   int currentIndex = 0;
