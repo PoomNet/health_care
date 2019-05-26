@@ -40,28 +40,26 @@ class _AddPageState extends State<AddPage> {
         print(check_user < data.value.length);
         print(check_user);
         if (data.value[check_user] != null) {
-          if (data.value[check_user]['user']['name'] == widget.userinfo.displayname) {
+          if (data.value[check_user]['user']['name'] ==
+              widget.userinfo.displayname) {
             //ไว้เชคuser
             break;
-          }
-          else if(check_user==data.value.length-1){
+          } else if (check_user == data.value.length - 1) {
             FirebaseDatabase.instance
-                                  .reference()
-                                  .child((check_user+1).toString()).child("user")
-                                  .set({
-                                  "name": Currentlogin.USER  ,//ใส่ข้อมูลuser
-                                });
+                .reference()
+                .child((check_user + 1).toString())
+                .child("user")
+                .set({
+              "name": Currentlogin.USER, //ใส่ข้อมูลuser
+            });
             break;
           }
         }
       }
-    
-      new_post = data.value[check_user]['post'].length;
 
+      new_post = data.value[check_user]['post'].length;
     });
   }
-
-
 
   void _handleRadioValueChange(int value) {
     setState(() {
@@ -96,7 +94,14 @@ class _AddPageState extends State<AddPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: Text("Create post")),
+        resizeToAvoidBottomPadding: true,
+        appBar: AppBar(
+          title: Text("Create post"),
+          actions: <Widget>[
+            
+          ],
+          centerTitle: true,
+        ),
         floatingActionButton: FloatingActionButton(
           backgroundColor: Colors.red,
           onPressed: () {
@@ -112,140 +117,218 @@ class _AddPageState extends State<AddPage> {
           },
           child: Icon(Icons.image),
         ),
-        body: Form(
-            key: _formKey,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                TextFormField(
-                  decoration: InputDecoration(labelText: "Cause"),
-                  controller: cause,
-                  validator: (value) {
-                    if (value.isEmpty) {
-                      return "Please fill subject";
-                    }
-                  },
-                  onSaved: (value) => print(value),
-                ),
-                TextFormField(
-                  decoration: InputDecoration(labelText: "Symptom"),
-                  controller: symptom,
-                  validator: (value) {
-                    if (value.isEmpty) {
-                      return "Please fill subject";
-                    }
-                  },
-                  onSaved: (value) => print(value),
-                ),
-                Column(
-                  children: <Widget>[
-                    Row(
+        body: Container(
+          height: 500,
+          child: ListView(
+            children: <Widget>[
+              Container(
+                padding: EdgeInsets.all(10.0),
+                child: Form(
+                    key: _formKey,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
                       children: <Widget>[
-                        new Radio(
-                          value: 0,
-                          groupValue: _radioValue,
-                          onChanged: _handleRadioValueChange,
+                        TextFormField(
+                          autofocus: true,
+                          decoration: new InputDecoration(
+                              labelText: "Topic",
+                              fillColor: Colors.white,
+                              border: new OutlineInputBorder(
+                                borderRadius: new BorderRadius.circular(25.0),
+                                borderSide: new BorderSide(),
+                              ),
+                              focusedBorder: new OutlineInputBorder(
+                                borderRadius: new BorderRadius.circular(25.0),
+                                borderSide:
+                                    new BorderSide(color: Colors.greenAccent),
+                              ),
+                              hintText: "Your topic here"),
+                          keyboardType: TextInputType.text,
+                          controller: cause,
+                          validator: (value) {
+                            if (value.isEmpty) {
+                              return "Please fill subject";
+                            }
+                          },
+                          onSaved: (value) => print(value),
                         ),
-                        new Text('การกิน'),
-                        new Radio(
-                          value: 1,
-                          groupValue: _radioValue,
-                          onChanged: _handleRadioValueChange,
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(0, 8.0, 0, 0),
+                          child: TextFormField(
+                            decoration: new InputDecoration(
+                                labelText: "Description",
+                                fillColor: Colors.white,
+                                border: new OutlineInputBorder(
+                                  borderRadius: new BorderRadius.circular(25.0),
+                                  borderSide: new BorderSide(),
+                                ),
+                                focusedBorder: new OutlineInputBorder(
+                                  borderRadius: new BorderRadius.circular(25.0),
+                                  borderSide:
+                                      new BorderSide(color: Colors.greenAccent),
+                                ),
+                                hintText: "Your description here"),
+                            keyboardType: TextInputType.multiline,
+                            maxLines: null,
+                            controller: symptom,
+                            validator: (value) {
+                              if (value.isEmpty) {
+                                return "Please fill subject";
+                              }
+                            },
+                            onSaved: (value) => print(value),
+                          ),
                         ),
-                        new Text('การออกกำลังกาย'),
-                        new Radio(
-                          value: 2,
-                          groupValue: _radioValue,
-                          onChanged: _handleRadioValueChange,
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[
+                            Padding(
+                              padding: const EdgeInsets.fromLTRB(30.0, 0, 0, 0),
+                              child: Row(
+                                children: <Widget>[
+                                  new Radio(
+                                    value: 0,
+                                    groupValue: _radioValue,
+                                    onChanged: _handleRadioValueChange,
+                                  ),
+                                  new Text('การกิน'),
+                                  new Radio(
+                                    value: 1,
+                                    groupValue: _radioValue,
+                                    onChanged: _handleRadioValueChange,
+                                  ),
+                                  new Text('การออกกำลังกาย'),
+                                ],
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.fromLTRB(30, 0, 0, 0),
+                              child: Row(
+                                children: <Widget>[
+                                  new Radio(
+                                    value: 2,
+                                    groupValue: _radioValue,
+                                    onChanged: _handleRadioValueChange,
+                                  ),
+                                  new Text('ลดน้ำหนัก'),
+                                  new Radio(
+                                    value: 3,
+                                    groupValue: _radioValue,
+                                    onChanged: _handleRadioValueChange,
+                                  ),
+                                  new Text('อุบัติเหตุ'),
+                                ],
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.fromLTRB(30, 0, 0, 0),
+                              child: Row(children: <Widget>[
+                                new Radio(
+                                  value: 4,
+                                  groupValue: _radioValue,
+                                  onChanged: _handleRadioValueChange,
+                                ),
+                                new Text('ผู้หญิง'),
+                                new Radio(
+                                  value: 5,
+                                  groupValue: _radioValue,
+                                  onChanged: _handleRadioValueChange,
+                                ),
+                                new Text('ผู้ชาย'),
+                                new Radio(
+                                  value: 6,
+                                  groupValue: _radioValue,
+                                  onChanged: _handleRadioValueChange,
+                                ),
+                                new Text('อื่นๆ'),
+                              ]),
+                            )
+                          ],
                         ),
-                        new Text('ลดน้ำหนัก'),
-                      ],
-                    ),
-                    Row(
-                      children: <Widget>[
-                        new Radio(
-                          value: 3,
-                          groupValue: _radioValue,
-                          onChanged: _handleRadioValueChange,
+                        TextFormField(
+                          decoration: new InputDecoration(
+                              labelText: "Details",
+                              fillColor: Colors.white,
+                              border: new OutlineInputBorder(
+                                borderRadius: new BorderRadius.circular(25.0),
+                                borderSide: new BorderSide(),
+                              ),
+                              focusedBorder: new OutlineInputBorder(
+                                borderRadius: new BorderRadius.circular(25.0),
+                                borderSide:
+                                    new BorderSide(color: Colors.greenAccent),
+                              ),
+                              hintText: "Add more details here"),
+                          controller: describe,
+                          keyboardType: TextInputType.multiline,
+                          maxLines: null,
+                          validator: (value) {
+                            if (value.isEmpty) {
+                              return "Please fill subject";
+                            }
+                          },
+                          onSaved: (value) => print(value),
                         ),
-                        new Text('อุบัติเหตุ'),
-                        new Radio(
-                          value: 4,
-                          groupValue: _radioValue,
-                          onChanged: _handleRadioValueChange,
-                        ),
-                        new Text('ผู้หญิง'),
-                        new Radio(
-                          value: 5,
-                          groupValue: _radioValue,
-                          onChanged: _handleRadioValueChange,
-                        ),
-                        new Text('ผู้ชาย'),
-                        new Radio(
-                          value: 6,
-                          groupValue: _radioValue,
-                          onChanged: _handleRadioValueChange,
-                        ),
-                        new Text('อื่นๆ'),
-                      ],
-                    ),
-                  ],
-                ),
-                TextFormField(
-                  decoration: InputDecoration(labelText: "Describe"),
-                  controller: describe,
-                  keyboardType: TextInputType.multiline,
-                  validator: (value) {
-                    if (value.isEmpty) {
-                      return "Please fill subject";
-                    }
-                  },
-                  onSaved: (value) => print(value),
-                ),
-                Row(
-                  children: <Widget>[
-                    Expanded(
-                        child: RaisedButton(
-                            child: Text("Save"),
-                            onPressed: () {
-                              FirebaseDatabase.instance
-                                  .reference()
-                                  .child(check_user.toString()).child("post").child(new_post.toString())
-                                  .set({
-                                  "cause": cause.text,
-                                  "symptom": symptom.text,
-                                  "category": category,
-                                  "describe": describe.text,
-                                  "image": "",
-                                });
+                        Row(
+                          children: <Widget>[
+                            Expanded(
+                                child: RaisedButton.icon(
+                                  icon: Icon(Icons.send),
+                                    label: Text("Post"),
+                                    textColor: Colors.white,
+                                    color: Colors.greenAccent,
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(20.0)),
+                                    onPressed: () {
+                                      FirebaseDatabase.instance
+                                          .reference()
+                                          .child(check_user.toString())
+                                          .child("post")
+                                          .child(new_post.toString())
+                                          .set({
+                                        "cause": cause.text,
+                                        "symptom": symptom.text,
+                                        "category": category,
+                                        "describe": describe.text,
+                                        "image": "",
+                                      });
 
-                              Firestore.instance.runTransaction(
-                                  (Transaction transaction) async {
-                                CollectionReference reference =
-                                    Firestore.instance.collection('post');
+                                      Firestore.instance.runTransaction(
+                                          (Transaction transaction) async {
+                                        CollectionReference reference =
+                                            Firestore.instance
+                                                .collection('post');
 
-                                await reference.add({
-                                  "cause": cause.text,
-                                  "symptom": symptom.text,
-                                  "category": category,
-                                  "describe": describe.text,
-                                  "image": "",
-                                  "user":widget.userinfo.displayname,
-                                });
-                                cause.clear();
-                                symptom.clear();
-                                // category.clear();
-                                describe.clear();
-                              });
-                              Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => MainPage(userinfo: userinf2,)));
-                            }))
-                  ],
-                )
-              ],
-            )));
+                                        await reference.add({
+                                          "cause": cause.text,
+                                          "symptom": symptom.text,
+                                          "category": category,
+                                          "describe": describe.text,
+                                          "image": "",
+                                          "user": widget.userinfo.displayname,
+                                        });
+                                        cause.clear();
+                                        symptom.clear();
+                                        // category.clear();
+                                        describe.clear();
+                                      });
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) => MainPage(
+                                                    userinfo: userinf2,
+                                                  )));
+                                    }))
+                          ],
+                        )
+                      ],
+                    )),
+              ),
+            ],
+          ),
+        ));
   }
 
   @override
