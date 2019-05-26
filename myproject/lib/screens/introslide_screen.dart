@@ -18,42 +18,62 @@ class _SlidePageState extends State<SlidePage> {
     slides.add(
       new Slide(
         title: "SCHOOL",
-        styleTitle:
-            TextStyle(color: Color(0xff3da4ab), fontSize: 30.0, fontWeight: FontWeight.bold, fontFamily: 'RobotoMono'),
+        styleTitle: TextStyle(
+            color: Color(0xff3da4ab),
+            fontSize: 30.0,
+            fontWeight: FontWeight.bold,
+            fontFamily: 'RobotoMono'),
         description:
             "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.",
-        styleDescription:
-            TextStyle(color: Color(0xfffe9c8f), fontSize: 20.0, fontStyle: FontStyle.italic, fontFamily: 'Raleway'),
-        pathImage: "images/photo_school.png",
+        styleDescription: TextStyle(
+            color: Colors.white,
+            fontSize: 20.0,
+            fontStyle: FontStyle.italic,
+            fontFamily: 'Raleway'),
+        pathImage: 'assets/pic/flmap.jpg',
       ),
     );
     slides.add(
       new Slide(
         title: "MUSEUM",
-        styleTitle:
-            TextStyle(color: Color(0xff3da4ab), fontSize: 30.0, fontWeight: FontWeight.bold, fontFamily: 'RobotoMono'),
-        description: "Ye indulgence unreserved connection alteration appearance",
-        styleDescription:
-            TextStyle(color: Color(0xfffe9c8f), fontSize: 20.0, fontStyle: FontStyle.italic, fontFamily: 'Raleway'),
-        pathImage: "images/photo_museum.png",
+        styleTitle: TextStyle(
+            color: Color(0xff3da4ab),
+            fontSize: 30.0,
+            fontWeight: FontWeight.bold,
+            fontFamily: 'RobotoMono'),
+        description:
+            "Ye indulgence unreserved connection alteration appearance",
+        styleDescription: TextStyle(
+            color: Colors.white,
+            fontSize: 20.0,
+            fontStyle: FontStyle.italic,
+            fontFamily: 'Raleway'),
+        pathImage: 'assets/pic/post.jpg',
       ),
     );
     slides.add(
       new Slide(
         title: "COFFEE SHOP",
-        styleTitle:
-            TextStyle(color: Color(0xff3da4ab), fontSize: 30.0, fontWeight: FontWeight.bold, fontFamily: 'RobotoMono'),
+        styleTitle: TextStyle(
+            color: Color(0xff3da4ab),
+            fontSize: 30.0,
+            fontWeight: FontWeight.bold,
+            fontFamily: 'RobotoMono'),
         description:
             "Much evil soon high in hope do view. Out may few northward believing attempted. Yet timed being songs marry one defer men our. Although finished blessing do of",
-        styleDescription:
-            TextStyle(color: Color(0xfffe9c8f), fontSize: 20.0, fontStyle: FontStyle.italic, fontFamily: 'Raleway'),
-        pathImage: "images/photo_coffee_shop.png",
+        styleDescription: TextStyle(
+            color: Colors.white,
+            fontSize: 20.0,
+            fontStyle: FontStyle.italic,
+            fontFamily: 'Raleway'),
+        pathImage: 'assets/pic/like.jpg',
       ),
     );
   }
 
   void onDonePress() {
-    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => RootPage(auth: new Auth())));
+    Navigator.pushReplacement(context,
+        MaterialPageRoute(builder: (context) => RootPage(auth: new Auth())));
   }
 
   void onTabChangeCompleted(index) {
@@ -63,7 +83,7 @@ class _SlidePageState extends State<SlidePage> {
   Widget renderNextBtn() {
     return Icon(
       Icons.navigate_next,
-      color: Color(0xffffcc5c),
+      color: Colors.white,
       size: 35.0,
     );
   }
@@ -71,14 +91,14 @@ class _SlidePageState extends State<SlidePage> {
   Widget renderDoneBtn() {
     return Icon(
       Icons.done,
-      color: Color(0xffffcc5c),
+      color: Colors.white,
     );
   }
 
   Widget renderSkipBtn() {
     return Icon(
       Icons.skip_next,
-      color: Color(0xffffcc5c),
+      color: Colors.white,
     );
   }
 
@@ -90,31 +110,32 @@ class _SlidePageState extends State<SlidePage> {
         width: double.infinity,
         height: double.infinity,
         child: Container(
-          margin: EdgeInsets.only(bottom: 60.0, top: 60.0),
           child: ListView(
             children: <Widget>[
               GestureDetector(
                   child: Image.asset(
                 currentSlide.pathImage,
-                width: 200.0,
-                height: 200.0,
                 fit: BoxFit.contain,
               )),
               Container(
-                child: Text(
-                  currentSlide.title,
-                  style: currentSlide.styleTitle,
-                  textAlign: TextAlign.center,
+                child: Center(
+                  child: Text(
+                    currentSlide.title,
+                    style: currentSlide.styleTitle,
+                    textAlign: TextAlign.center,
+                  ),
                 ),
                 margin: EdgeInsets.only(top: 20.0),
               ),
               Container(
-                child: Text(
-                  currentSlide.description,
-                  style: currentSlide.styleDescription,
-                  textAlign: TextAlign.center,
-                  maxLines: 5,
-                  overflow: TextOverflow.ellipsis,
+                child: Center(
+                  child: Text(
+                    currentSlide.description,
+                    style: currentSlide.styleDescription,
+                    textAlign: TextAlign.center,
+                    maxLines: 5,
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 ),
                 margin: EdgeInsets.only(top: 20.0),
               ),
@@ -126,8 +147,7 @@ class _SlidePageState extends State<SlidePage> {
     return tabs;
   }
 
-
-   @override
+  @override
   Widget build(BuildContext context) {
     return new IntroSlider(
       // List slides
@@ -135,8 +155,8 @@ class _SlidePageState extends State<SlidePage> {
 
       // Skip button
       renderSkipBtn: this.renderSkipBtn(),
-      colorSkipBtn: Color(0x33ffcc5c),
-      highlightColorSkipBtn: Color(0xffffcc5c),
+      colorSkipBtn: Colors.greenAccent,
+      highlightColorSkipBtn: Colors.redAccent,
 
       // Next button
       renderNextBtn: this.renderNextBtn(),
@@ -144,11 +164,11 @@ class _SlidePageState extends State<SlidePage> {
       // Done button
       renderDoneBtn: this.renderDoneBtn(),
       onDonePress: this.onDonePress,
-      colorDoneBtn: Color(0x33ffcc5c),
-      highlightColorDoneBtn: Color(0xffffcc5c),
+      colorDoneBtn: Colors.blueAccent,
+      highlightColorDoneBtn: Colors.greenAccent,
 
       // Dot indicator
-      colorDot: Color(0x33ffcc5c),
+      colorDot: Color.fromRGBO(244, 208, 63, 0.6),
       colorActiveDot: Color(0xffffcc5c),
       sizeDot: 13.0,
 
@@ -163,4 +183,3 @@ class _SlidePageState extends State<SlidePage> {
     );
   }
 }
-
