@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:myapp/data/users.dart';
 import 'package:myapp/screens/post_describe.dart';
+import 'package:myapp/screens/post_describe2.dart';
 import 'package:myapp/screens/sqlpost.dart';
 
 import 'current_post.dart';
@@ -102,7 +103,7 @@ class _PostPageState extends State<LikePostPage> {
             Currentpost.COMMENT = comment;
           });
           Navigator.push(
-              context, MaterialPageRoute(builder: (context) => Showpost()));
+              context, MaterialPageRoute(builder: (context) => Showpost2()));
         },
       )),
                       );

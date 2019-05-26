@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:myapp/screens/likepost.dart';
 import 'package:myapp/screens/sqlpost.dart';
 import 'package:path/path.dart';
 
@@ -218,7 +219,8 @@ class ShowpostState2 extends State<Showpost2> {
                 Currentpost.DESCRIBE = "";
                 Currentpost.USER = "";
                 Currentpost.COMMENT = null;
-                Navigator.pop(context);
+                Navigator.push(
+              context, MaterialPageRoute(builder: (context) => LikePostPage()));
               },
             )
           ],
