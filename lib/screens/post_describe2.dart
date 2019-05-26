@@ -103,9 +103,10 @@ class ShowpostState2 extends State<Showpost2> {
   }
 
   Widget buildList() {
-    if (checkcom == 0) {
-      return Column();
-    } else if (Currentpost.COMMENT != null) {
+    // if (checkcom == 0) {
+    //   return Column();
+    // } else 
+    if (Currentpost.COMMENT != null) {
       return Container(
           height: 75.0,
           child: new ListView.builder(
@@ -219,8 +220,7 @@ class ShowpostState2 extends State<Showpost2> {
                 Currentpost.DESCRIBE = "";
                 Currentpost.USER = "";
                 Currentpost.COMMENT = null;
-                Navigator.push(
-              context, MaterialPageRoute(builder: (context) => LikePostPage()));
+                Navigator.pop(context);
               },
             )
           ],
@@ -251,59 +251,59 @@ class ShowpostState2 extends State<Showpost2> {
                         leading: Icon(Icons.account_circle),
                         title: Text(Currentpost.USER),
                       ),
-                      buildlike(),
-                      buildunlike(),
-                      buildbut(),
+                      // buildlike(),
+                      // buildunlike(),
+                      // buildbut(),
                       buildList(),
-                      TextFormField(
-                          decoration: new InputDecoration(
-                              labelText: "Comment",
-                              fillColor: Colors.white,
-                              border: new OutlineInputBorder(
-                                borderRadius: new BorderRadius.circular(25.0),
-                                borderSide: new BorderSide(),
-                              ),
-                              focusedBorder: new OutlineInputBorder(
-                                borderRadius: new BorderRadius.circular(25.0),
-                                borderSide:
-                                    new BorderSide(color: Colors.greenAccent),
-                              ),
-                              hintText: "Write your comment here"),
-                          keyboardType: TextInputType.multiline,
-                          maxLines: 3,
-                          controller: commentCon,
-                          validator: (value) {
-                            if (value.isEmpty) {
-                              return "Please fill subject";
-                            }
-                          }),
-                      ConstrainedBox(
-                        constraints:
-                            const BoxConstraints(minWidth: double.infinity),
-                        child: RaisedButton.icon(
-                            icon: Icon(Icons.add_comment),
-                            color: Colors.blueAccent,
-                            textColor: Colors.white,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20.0)),
-                            label: Text("Comment"),
-                            onPressed: () {
-                              FirebaseDatabase.instance
-                                  .reference()
-                                  .child(check_user.toString())
-                                  .child("post")
-                                  .child(check_post.toString())
-                                  .child("comment")
-                                  .child(new_com.toString())
-                                  .set(commentCon.text);
-                              com;
-                              comment.add(commentCon.text);
-                              Currentpost.COMMENT = comment;
-                              setState(() {
-                                commentCon.clear();
-                              });
-                            }),
-                      ),
+                      // TextFormField(
+                      //     decoration: new InputDecoration(
+                      //         labelText: "Comment",
+                      //         fillColor: Colors.white,
+                      //         border: new OutlineInputBorder(
+                      //           borderRadius: new BorderRadius.circular(25.0),
+                      //           borderSide: new BorderSide(),
+                      //         ),
+                      //         focusedBorder: new OutlineInputBorder(
+                      //           borderRadius: new BorderRadius.circular(25.0),
+                      //           borderSide:
+                      //               new BorderSide(color: Colors.greenAccent),
+                      //         ),
+                      //         hintText: "Write your comment here"),
+                      //     keyboardType: TextInputType.multiline,
+                      //     maxLines: 3,
+                      //     controller: commentCon,
+                      //     validator: (value) {
+                      //       if (value.isEmpty) {
+                      //         return "Please fill subject";
+                      //       }
+                      //     }),
+                      // ConstrainedBox(
+                      //   constraints:
+                      //       const BoxConstraints(minWidth: double.infinity),
+                      //   child: RaisedButton.icon(
+                      //       icon: Icon(Icons.add_comment),
+                      //       color: Colors.blueAccent,
+                      //       textColor: Colors.white,
+                      //       shape: RoundedRectangleBorder(
+                      //           borderRadius: BorderRadius.circular(20.0)),
+                      //       label: Text("Comment"),
+                      //       onPressed: () {
+                      //         FirebaseDatabase.instance
+                      //             .reference()
+                      //             .child(check_user.toString())
+                      //             .child("post")
+                      //             .child(check_post.toString())
+                      //             .child("comment")
+                      //             .child(new_com.toString())
+                      //             .set(commentCon.text);
+                      //         com;
+                      //         comment.add(commentCon.text);
+                      //         Currentpost.COMMENT = comment;
+                      //         setState(() {
+                      //           commentCon.clear();
+                      //         });
+                      //       }),
+                      // ),
                     ],
                   ),
                 ),
