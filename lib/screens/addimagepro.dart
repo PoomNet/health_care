@@ -75,16 +75,17 @@ class AddimageState extends State<Addimagepro> {
   Widget uploadArea(context) {
     return Column(
       children: <Widget>[
-        Image.file(image, width: 100),
+        Image.file(image, width: 150),
         RaisedButton(
           color: Colors.yellowAccent,
-          child: Text('Post'),
+          child: Text('Add Image'),
           onPressed: () {
             uploadImage();
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => MainPage(userinfo: userinf2,)));
+            // Navigator.push(
+            //     context,
+            //     MaterialPageRoute(
+            //         builder: (context) => MainPage(userinfo: userinf2,)));
+            Navigator.pop(context);
           },
         )
       ],

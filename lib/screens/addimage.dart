@@ -74,7 +74,7 @@ class AddimageState extends State<Addimage> {
   Widget uploadArea(context) {
     return Column(
       children: <Widget>[
-        Image.file(image, width: 100),
+        Image.file(image, width: 150),
         RaisedButton(
           color: Colors.yellowAccent,
           child: Text('Post'),
