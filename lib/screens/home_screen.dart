@@ -141,23 +141,23 @@ class _MainPageState extends State<MainPage> {
     // Important: Remove any padding from the ListView.
     padding: EdgeInsets.zero,
     children: <Widget>[
-      // UserAccountsDrawerHeader(
-      //   currentAccountPicture: CircleAvatar(
-      //     backgroundColor: Colors.white10,
-      //    ),
-      //    accountName: Text(widget.userinfo.displayname),
-      //    accountEmail: Text(widget.userinfo.email),
-      //    decoration: BoxDecoration(
-      //      color: Colors.blue
-      //    ),
-      //   ),
+      UserAccountsDrawerHeader(
+        currentAccountPicture: CircleAvatar(
+          backgroundColor: Colors.white10,
+         ),
+         accountName: Text(Currentlogin.USER),
+         accountEmail: Text(Currentlogin.EMAIL),
+         decoration: BoxDecoration(
+           color: Colors.blue
+         ),
+        ),
       
       ListTile(
         leading: Icon(Icons.home),
         title: Text('หน้าหลัก'),
         trailing: Icon(Icons.keyboard_arrow_right),
         onTap: () {
-
+          Navigator.push(context, MaterialPageRoute(builder: (context) => PostPage()));
         },
       ),
       ListTile(
