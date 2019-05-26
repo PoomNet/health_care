@@ -14,6 +14,7 @@ import 'package:myapp/screens/map_screen.dart';
 import 'package:myapp/screens/post_screens.dart';
 import 'package:myapp/screens/profile_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:myapp/services/authentication.dart';
 
 import '../map.dart';
 
@@ -26,12 +27,14 @@ GoogleSignIn _googleSignIn = new GoogleSignIn(
 class MainPage extends StatefulWidget {
   
   MainPage({
-    Key key, this.userinfo
+    Key key, this.userinfo, this.onSignedOut, this.auth
     
     }
     ) 
     : super(key: key);
     final User userinfo;
+    final VoidCallback onSignedOut;
+    final BaseAuth auth;
   
   
   @override
@@ -86,6 +89,11 @@ class _MainPageState extends State<MainPage> {
 
     });
     
+  }
+
+  _signOut() async{
+        await widget.auth.signOut();
+        widget.onSignedOut();
   }
 
   
@@ -172,7 +180,7 @@ class _MainPageState extends State<MainPage> {
         title: Text('ออกจากระบบ'),
         subtitle: Text('Logout'),
 
-        onTap: () => _handleSignOut(),
+        onTap: () => _signOut(),
       ),
     ],
   ));

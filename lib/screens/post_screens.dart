@@ -228,28 +228,12 @@ class _PostPageState extends State<PostPage> {
       print(category);
       print(document['category']);
       return Card(
-        
         color: Colors.pink[50],
           child: Container(
             child: ListTile(
-
-              leading: Icon(Icons.person),
-              trailing: Icon(Icons.keyboard_arrow_right),
-               title: Padding(
-          padding: const EdgeInsets.only(bottom: 10),
-          child: Row(
-            children: <Widget>[
-              Text('Topic : ',style: TextStyle(fontWeight: FontWeight.bold)),
-              Text(document['cause']),
-            ],
-          ),
-        ),
-        subtitle: Row(
-          children: <Widget>[
-            Text('Description : ',style: TextStyle(fontWeight: FontWeight.bold)),
-            Text(document['symptom']),
-          ],
-        ),
+              
+        title: Text(document['cause']),
+        subtitle: Text(document['symptom']),
         onTap: () {
             Currentpost.CAUSE = document['cause'];
             Currentpost.SYMPTOM = document['symptom'];
@@ -303,6 +287,14 @@ class _PostPageState extends State<PostPage> {
       children: <Widget>[
           _buildfilterBut(),
           _buildRadio(),
+          Row(
+            
+            children: <Widget>[
+          Image.asset('assets/pic/login-bg.jpg',fit: BoxFit.fill, width: 400, height: 100,),
+
+          ],),
+          
+          
           StreamBuilder(
             stream: Firestore.instance.collection('post').snapshots(),
             builder: (context, snapshot) {
@@ -310,6 +302,19 @@ class _PostPageState extends State<PostPage> {
                 return Center(
                   child: Column(
                     children: <Widget>[
+                           Card(
+      
+      child: Image.asset(
+        'assets/pic/login-bg.jpg',
+        fit: BoxFit.fill,
+        height: 400,
+      ),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10.0),
+      ),
+      elevation: 5,
+      margin: EdgeInsets.all(10),
+    ),
                       Text(
                         "No Data Found..",
                         textAlign: TextAlign.center,
@@ -319,6 +324,7 @@ class _PostPageState extends State<PostPage> {
                 );
               } else {
                 return Container(
+                  height: 350,
                     child: ListView.builder(
                       scrollDirection: Axis.vertical,
                       shrinkWrap: true,
@@ -331,6 +337,7 @@ class _PostPageState extends State<PostPage> {
           ),
       ],
     ),
+
                   ]));
   }
 }

@@ -57,6 +57,7 @@ class _RootPageState extends State<RootPage> {
     setState(() {
       authStatus = AuthStatus.NOT_LOGGED_IN;
       _userId = "";
+      _test = "";
     });
   }
 
@@ -98,7 +99,9 @@ class _RootPageState extends State<RootPage> {
     });
   });
           return new MainPage(
-            userinfo: user
+            userinfo: user,
+            onSignedOut: _onSignedOut,
+            auth: widget.auth,
 
           );
         } else return _buildWaitingScreen();
