@@ -25,78 +25,74 @@ GoogleSignIn _googleSignIn = new GoogleSignIn(
 );
 
 class MainPage extends StatefulWidget {
-  
-  MainPage({
-    Key key, this.userinfo, this.onSignedOut, this.auth
-    
-    }
-    ) 
-    : super(key: key);
-    final User userinfo;
-    final VoidCallback onSignedOut;
-    final BaseAuth auth;
-  
-  
+  MainPage({Key key, this.userinfo, this.onSignedOut, this.auth})
+      : super(key: key);
+  final User userinfo;
+  final VoidCallback onSignedOut;
+  final BaseAuth auth;
+
   @override
   _MainPageState createState() => _MainPageState();
 }
 
 class _MainPageState extends State<MainPage> {
-  var check_user=0;
-  
-  
-  
+  var check_user = 0;
+  var img = "https://firebasestorage.googleapis.com/v0/b/healthcare-ce7be.appspot.com/o/user-icon.png?alt=media&token=cfe54db6-e40d-4771-b8ce-1c0edae35f23";
+
   static final FacebookLogin facebookSignIn = new FacebookLogin();
 
   Future<Null> _handleSignOut() async {
-
     await facebookSignIn.logOut();
-    
-    Navigator.of(context)
-        .pushReplacement(MaterialPageRoute(builder: (context) => LoginSignUpPage()));
+
+    Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (context) => LoginSignUpPage()));
   }
-    @override
+
+  @override
   initState() {
     super.initState();
     // Add listeners to this class
     FirebaseDatabase.instance.reference().once().then((DataSnapshot data) {
       print(data.value.length);
-      print("This is "+widget.userinfo.email);
+      print("This is " + widget.userinfo.email);
       print(Currentpost.USER);
       setState(() {
         print(111111);
       });
-      
+
       for (check_user; check_user < data.value.length; check_user++) {
         print(data.value.length.runtimeType);
         print(check_user < data.value.length);
         print(check_user);
         if (data.value[check_user] != null) {
-          if (data.value[check_user]['user']['name'] == widget.userinfo.displayname) {//ใส่ชื่อuserไว้เชคว่ามีแล้วหรือยัง
+          if (data.value[check_user]['user']['name'] ==
+              widget.userinfo.displayname) {
+            //ใส่ชื่อuserไว้เชคว่ามีแล้วหรือยัง
+            if (data.value[check_user]['user']['image'] != null) {
+              img = data.value[check_user]['user']['image'];
+              Currentlogin.IMAGE=img;
+            }
+
             break;
-          }
-          else if(check_user==data.value.length-1){
+          } else if (check_user == data.value.length - 1) {
             FirebaseDatabase.instance
-                                  .reference()
-                                  .child((check_user+1).toString()).child("user")
-                                  .set({
-                                  "name": Currentlogin.USER  ,//ใส่ข้อมูลuser
-                                });
+                .reference()
+                .child((check_user + 1).toString())
+                .child("user")
+                .set({
+              "name": Currentlogin.USER, //ใส่ข้อมูลuser
+            });
             break;
           }
         }
       }
-
     });
-    
   }
 
-  _signOut() async{
-        await widget.auth.signOut();
-        widget.onSignedOut();
+  _signOut() async {
+    await widget.auth.signOut();
+    widget.onSignedOut();
   }
-
-  
 
   int currentIndex = 0;
   List pages = [PostPage(), Map_Screen(), ProfilePage()];
@@ -109,81 +105,90 @@ class _MainPageState extends State<MainPage> {
 
     TextStyle myStyle = TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold);
 
-    Widget bottomNavbar = BottomNavigationBar(currentIndex: currentIndex, 
-    onTap: (int index){
-      setState(() {
-        currentIndex = index;
-      });
-    }
-    ,items: [
-    BottomNavigationBarItem(icon: Icon(Icons.home), title: Text('หน้าจอหลัก')),
-    BottomNavigationBarItem(icon: Icon(Icons.map), title: Text('ตำแหน่งของคุณ')),
-    BottomNavigationBarItem(icon: Icon(Icons.people), title: Text('Profile'))
-    ],);
+    Widget bottomNavbar = BottomNavigationBar(
+      currentIndex: currentIndex,
+      onTap: (int index) {
+        setState(() {
+          currentIndex = index;
+        });
+      },
+      items: [
+        BottomNavigationBarItem(
+            icon: Icon(Icons.home), title: Text('หน้าจอหลัก')),
+        BottomNavigationBarItem(
+            icon: Icon(Icons.map), title: Text('ตำแหน่งของคุณ')),
+        BottomNavigationBarItem(
+            icon: Icon(Icons.people), title: Text('Profile'))
+      ],
+    );
 
     Widget appBar = AppBar(
-      title: Text('HelthCare', style: myStyle ),
+      title: Text('HelthCare', style: myStyle),
       centerTitle: true,
       actions: <Widget>[
-         new IconButton(icon: new Icon(Icons.search),onPressed: (){}),
-        ],
-      );
+        new IconButton(icon: new Icon(Icons.search), onPressed: () {}),
+      ],
+    );
 
     Widget floatingAction = FloatingActionButton(
-    backgroundColor: Colors.red
-    ,onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context) => AddPage(widget.userinfo)));}, child: Icon(Icons.add),);
+      backgroundColor: Colors.red,
+      onPressed: () {
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => AddPage(widget.userinfo)));
+      },
+      child: Icon(Icons.add),
+    );
 
     Widget drawer = Drawer(
-  // Add a ListView to the drawer. This ensures the user can scroll
-  // through the options in the Drawer if there isn't enough vertical
-  // space to fit everything.
-    child: ListView(
-    // Important: Remove any padding from the ListView.
-    padding: EdgeInsets.zero,
-    children: <Widget>[
-      UserAccountsDrawerHeader(
-        currentAccountPicture: CircleAvatar(
-          backgroundColor: Colors.white10,
-         ),
-         accountName: Text(Currentlogin.USER),
-         accountEmail: Text(Currentlogin.EMAIL),
-         decoration: BoxDecoration(
-           color: Colors.blue
-         ),
+        // Add a ListView to the drawer. This ensures the user can scroll
+        // through the options in the Drawer if there isn't enough vertical
+        // space to fit everything.
+        child: ListView(
+      // Important: Remove any padding from the ListView.
+      padding: EdgeInsets.zero,
+      children: <Widget>[
+        UserAccountsDrawerHeader(
+          currentAccountPicture: CircleAvatar(
+            backgroundColor: Colors.white10,
+          ),
+          accountName: Text(Currentlogin.USER),
+          accountEmail: Text(Currentlogin.EMAIL),
+          decoration: BoxDecoration(
+               image: DecorationImage(fit: BoxFit.cover, image: NetworkImage(img))
+
+              ),
         ),
-      
-      ListTile(
-        leading: Icon(Icons.home),
-        title: Text('หน้าหลัก'),
-        trailing: Icon(Icons.keyboard_arrow_right),
-        onTap: () {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => PostPage()));
-        },
-      ),
-      ListTile(
-        leading:Icon(Icons.settings),
-        title: Text('ตั้งค่า'),
-        subtitle: Text('ตั่งค่าผู้ใช้'),
-        trailing: Icon(Icons.keyboard_arrow_right),
-        onTap: () {
-        },
-      ),
-      SizedBox(
-        height: 50,
-      ),Divider(
-        height: 30,
-        color: Colors.black,
-      ),
-      ListTile(
-        leading:Icon(Icons.exit_to_app),
-        title: Text('ออกจากระบบ'),
-        subtitle: Text('Logout'),
-
-        onTap: () => _signOut(),
-      ),
-    ],
-  ));
-
+        ListTile(
+          leading: Icon(Icons.home),
+          title: Text('หน้าหลัก'),
+          trailing: Icon(Icons.keyboard_arrow_right),
+          onTap: () {
+            Navigator.push(
+                context, MaterialPageRoute(builder: (context) => PostPage()));
+          },
+        ),
+        ListTile(
+          leading: Icon(Icons.settings),
+          title: Text('ตั้งค่า'),
+          subtitle: Text('ตั่งค่าผู้ใช้'),
+          trailing: Icon(Icons.keyboard_arrow_right),
+          onTap: () {},
+        ),
+        SizedBox(
+          height: 50,
+        ),
+        Divider(
+          height: 30,
+          color: Colors.black,
+        ),
+        ListTile(
+          leading: Icon(Icons.exit_to_app),
+          title: Text('ออกจากระบบ'),
+          subtitle: Text('Logout'),
+          onTap: () => _signOut(),
+        ),
+      ],
+    ));
 
     return Scaffold(
       appBar: appBar,

@@ -5,6 +5,8 @@ import 'package:myapp/data/users.dart';
 import 'package:myapp/screens/likepost.dart';
 import 'package:myapp/screens/show_user_post.dart';
 
+import 'addimagepro.dart';
+
 class ProfilePage extends StatefulWidget {
   ProfilePage({Key key}) : super(key: key);
 
@@ -121,10 +123,17 @@ class _ProfilePageState extends State<ProfilePage> {
               
             ),
           ), 
+          RaisedButton(
+            child: Text("add pro"),
+            onPressed:(){
+               Navigator.push(context, MaterialPageRoute(builder: (context) => Addimagepro()));
+            },
+          )
      
                 
               ],
             ),
+
              
            
            ],
