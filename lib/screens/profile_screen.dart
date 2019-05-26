@@ -18,17 +18,62 @@ class _ProfilePageState extends State<ProfilePage> {
     return Scaffold(
        body: Center(child: Column(
          children: <Widget>[
-           Text(Currentlogin.EMAIL),
-           Text(Currentlogin.USER),
-           RaisedButton(child: Text("YOUR POST"),
+
+            ListTile(
+               leading: Icon(Icons.person),
+               title: Row(children: <Widget>[
+                      Text('User : ',style: TextStyle(fontWeight: FontWeight.bold)),
+                Text(Currentlogin.USER),
+               ],)
+
+           ),
+
+           ListTile(
+               leading: Icon(Icons.email),
+               title: Row(children: <Widget>[
+                  Text('E-mail : ',style: TextStyle(fontWeight: FontWeight.bold)),
+                  Text(Currentlogin.EMAIL),
+               ],)
+
+           ),
+
+          
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: RaisedButton(child: Text("YOUR POST"),
            onPressed: (){
             //  UserPostPage
             Navigator.push(context, MaterialPageRoute(builder: (context) => UserPostPage()));
            },),
-           RaisedButton(child: Text("The post u like"),
-           onPressed: (){
-             Navigator.push(context, MaterialPageRoute(builder: (context) => LikePostPage()));
-           },)
+                ),
+           Padding(
+             padding: const EdgeInsets.all(8.0),
+             child: Row(
+              children: <Widget>[
+                 RaisedButton(child: Row(
+                   children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.only(right : 8.0),
+                        child: Text("THE POST YOU LIKE"),
+                      ),
+                      Icon(Icons.favorite_border)
+                   ],
+                 ),
+             onPressed: (){
+               Navigator.push(context, MaterialPageRoute(builder: (context) => LikePostPage()));
+             },),
+              ],
+             ),
+            
+           )
+              
+            ],
+          ),
+           
+         
          ],
        )),
     );

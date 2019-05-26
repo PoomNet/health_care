@@ -45,9 +45,29 @@ class _PostPageState extends State<LikePostPage> {
                         itemCount: document.length,
                         itemBuilder: (context, index) =>
                             new Card(
+                              color: Colors.pink[50],
+        margin: const EdgeInsets.all(10),
           child: ListTile(
-        title: Text(document[index].cause),
-        subtitle: Text(document[index].symptom),
+      title: Padding(
+          padding: const EdgeInsets.only(bottom: 10),
+          child: Row(
+            children: <Widget>[
+              Text('Topic : ',style: TextStyle(fontWeight: FontWeight.bold)),
+              Text(document[index].cause),
+            ],
+          ),
+        ),       
+        subtitle: Padding(
+          padding: const EdgeInsets.only(bottom: 10),
+          child: Row(
+            children: <Widget>[
+              Text('Describe : ',style: TextStyle(fontWeight: FontWeight.bold)),
+              Text(document[index].symptom),            
+              ],
+          ),
+        ),              
+        
+        
         onTap: () {
           Currentpost.CAUSE = document[index].cause;
           Currentpost.SYMPTOM = document[index].symptom;

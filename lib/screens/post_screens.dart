@@ -77,7 +77,10 @@ class _PostPageState extends State<PostPage> {
     if (filter) {
       return Column(
         children: <Widget>[
-          new Text('สุขภาพทั่วไป'),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: new Align(alignment: Alignment.centerLeft, child: new Text("สุขภาพทั่วไป", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0),)),
+          ),
           Row(
             children: <Widget>[
    
@@ -102,8 +105,10 @@ class _PostPageState extends State<PostPage> {
            
             ],
           ),
-                    new Text('เพศ'),
-
+  Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: new Align(alignment: Alignment.centerLeft, child: new Text("เพศ", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0),)),
+          ),
           Row(
             children: <Widget>[
     
@@ -123,8 +128,10 @@ class _PostPageState extends State<PostPage> {
               
             ],
           ),
-            new Text('เพิ่มเติม'),
-
+  Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: new Align(alignment: Alignment.centerLeft, child: new Text("เพิ่มเติม", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0),)),
+          ),
           Row(children: <Widget>[
                        new Radio(
                 value: 7,
@@ -228,12 +235,28 @@ class _PostPageState extends State<PostPage> {
       print(category);
       print(document['category']);
       return Card(
+        
         color: Colors.pink[50],
           child: Container(
             child: ListTile(
-              
-        title: Text(document['cause']),
-        subtitle: Text(document['symptom']),
+
+              leading: Icon(Icons.person),
+              trailing: Icon(Icons.keyboard_arrow_right),
+               title: Padding(
+          padding: const EdgeInsets.only(bottom: 10),
+          child: Row(
+            children: <Widget>[
+              Text('Topic : ',style: TextStyle(fontWeight: FontWeight.bold)),
+              Text(document['cause']),
+            ],
+          ),
+        ),
+        subtitle: Row(
+          children: <Widget>[
+            Text('Description : ',style: TextStyle(fontWeight: FontWeight.bold)),
+            Text(document['symptom']),
+          ],
+        ),
         onTap: () {
             Currentpost.CAUSE = document['cause'];
             Currentpost.SYMPTOM = document['symptom'];
@@ -285,29 +308,14 @@ class _PostPageState extends State<PostPage> {
                   children: <Widget>[
                      Column(
       children: <Widget>[
+        
           _buildfilterBut(),
-          _buildRadio(),
-          Row(
-            
-            children: <Widget>[
-          Image.asset('assets/pic/login-bg.jpg',fit: BoxFit.fill, width: 400, height: 100,),
-
-          ],),
-          
-          
-          StreamBuilder(
-            stream: Firestore.instance.collection('post').snapshots(),
-            builder: (context, snapshot) {
-              if (!snapshot.hasData) {
-                return Center(
-                  child: Column(
-                    children: <Widget>[
-                           Card(
+                               Card(
       
       child: Image.asset(
         'assets/pic/login-bg.jpg',
-        fit: BoxFit.fill,
-        height: 400,
+        height: 200,
+        fit: BoxFit.cover,
       ),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10.0),
@@ -315,6 +323,16 @@ class _PostPageState extends State<PostPage> {
       elevation: 5,
       margin: EdgeInsets.all(10),
     ),
+            
+          _buildRadio(),
+          StreamBuilder(
+            stream: Firestore.instance.collection('post').snapshots(),
+            builder: (context, snapshot) {
+              if (!snapshot.hasData) {
+                return Center(
+                  child: Column(
+                    children: <Widget>[
+                      
                       Text(
                         "No Data Found..",
                         textAlign: TextAlign.center,
@@ -324,7 +342,7 @@ class _PostPageState extends State<PostPage> {
                 );
               } else {
                 return Container(
-                  height: 350,
+                  height: 300,
                     child: ListView.builder(
                       scrollDirection: Axis.vertical,
                       shrinkWrap: true,
@@ -337,7 +355,6 @@ class _PostPageState extends State<PostPage> {
           ),
       ],
     ),
-
                   ]));
   }
 }

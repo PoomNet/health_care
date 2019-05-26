@@ -28,9 +28,28 @@ class _PostPageState extends State<UserPostPage> {
       var check_user = 0;
       var check_post = 0;
       return Card(
+
+                              color: Colors.pink[50],
+        margin: const EdgeInsets.all(10),
           child: ListTile(
-        title: Text(document['cause']),
-        subtitle: Text(document['symptom']),
+    title: Padding(
+          padding: const EdgeInsets.only(bottom: 10),
+          child: Row(
+            children: <Widget>[
+              Text('Topic : ',style: TextStyle(fontWeight: FontWeight.bold)),
+              Text(document['cause']),
+            ],
+          ),
+        ),       
+        subtitle: Padding(
+          padding: const EdgeInsets.only(bottom: 10),
+          child: Row(
+            children: <Widget>[
+              Text('Describe : ',style: TextStyle(fontWeight: FontWeight.bold)),
+              Text(document['symptom']),            
+              ],
+          ),
+        ),              
         onTap: () {
           Currentpost.CAUSE = document['cause'];
           Currentpost.SYMPTOM = document['symptom'];
@@ -78,7 +97,7 @@ class _PostPageState extends State<UserPostPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          title: Text("flutter"),),
+          title: Text("fluteeter"),),
         body: Column(
       children: <Widget>[
         StreamBuilder(
