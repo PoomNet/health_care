@@ -228,12 +228,28 @@ class _PostPageState extends State<PostPage> {
       print(category);
       print(document['category']);
       return Card(
+        
         color: Colors.pink[50],
           child: Container(
             child: ListTile(
-              
-        title: Text(document['cause']),
-        subtitle: Text(document['symptom']),
+
+              leading: Icon(Icons.person),
+              trailing: Icon(Icons.keyboard_arrow_right),
+               title: Padding(
+          padding: const EdgeInsets.only(bottom: 10),
+          child: Row(
+            children: <Widget>[
+              Text('Topic : ',style: TextStyle(fontWeight: FontWeight.bold)),
+              Text(document['cause']),
+            ],
+          ),
+        ),
+        subtitle: Row(
+          children: <Widget>[
+            Text('Description : ',style: TextStyle(fontWeight: FontWeight.bold)),
+            Text(document['symptom']),
+          ],
+        ),
         onTap: () {
             Currentpost.CAUSE = document['cause'];
             Currentpost.SYMPTOM = document['symptom'];
