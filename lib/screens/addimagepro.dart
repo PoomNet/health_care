@@ -22,7 +22,7 @@ class Addimagepro extends StatefulWidget {
 }
 
 var check_user = 0;
-var new_post =0;
+var new_post = 0;
 File image;
 String filename;
 
@@ -41,6 +41,7 @@ class AddimageState extends State<Addimagepro> {
   @override
   initState() {
     super.initState();
+    print(Currentlogin.USER);
     // Add listeners to this class
     FirebaseDatabase.instance.reference().once().then((DataSnapshot data) {
       for (check_user; check_user < data.value.length; check_user++) {
@@ -51,6 +52,18 @@ class AddimageState extends State<Addimagepro> {
           }
         }
       }
+      print(check_user);
+      print(data.value.length);
+      print(check_user);
+      if (check_user == data.value.length) {
+        FirebaseDatabase.instance
+            .reference()
+            .child(check_user.toString())
+            .child("user")
+            .child("name")
+            .set(Currentlogin.USER);
+      }
+
       new_post = data.value[check_user]['post'].length;
     });
   }
@@ -104,9 +117,11 @@ Future<String> uploadImage() async {
   print("download URL : $url");
 
   FirebaseDatabase.instance
-                                  .reference()
-                                  .child(check_user.toString()).child("user").child("image")
-                                  .set(url);
+      .reference()
+      .child(check_user.toString())
+      .child("user")
+      .child("image")
+      .set(url);
 
   // Firestore.instance.runTransaction((Transaction transaction) async {
   //   CollectionReference reference = Firestore.instance.collection('post');
