@@ -5,6 +5,7 @@ import 'package:myapp/screens/home_screen.dart';
 import 'package:myapp/screens/signup_screen.dart';
 import 'package:myapp/screens/root_page.dart';
 import 'package:myapp/services/authentication.dart';
+import 'package:myapp/screens/introslide_screen.dart';
 
 import 'screens/login_screen.dart';
 
@@ -18,7 +19,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Healthcare',
       theme: ThemeData(primaryColor: Colors.pink),
-      home: RootPage(auth: new Auth()),
+      home: SlidePage(),
       debugShowCheckedModeBanner: false,
     );
   }
