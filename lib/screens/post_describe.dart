@@ -26,7 +26,7 @@ class ShowpostState extends State<Showpost> {
   var check_user = 0;
   var check_post = 0;
   var new_com = 0;
-  var aaa = 0;
+  var checkcom = 0;
   final commentCon = TextEditingController();
 
   void check() async {
@@ -82,12 +82,12 @@ class ShowpostState extends State<Showpost> {
   }
 
   Widget buildbut() {
-    if (Currentpost.COMMENT == null) {
+    if (checkcom==0) {
       return RaisedButton(
         child: Text("Show Comments"),
         onPressed: () {
           setState(() {
-            aaa = 1;
+            checkcom = 1;
           });
         },
       );
@@ -97,9 +97,9 @@ class ShowpostState extends State<Showpost> {
   }
 
   Widget buildList() {
-    if (Currentpost.COMMENT == null) {
+    if (checkcom==0) {
       return Column();
-    } else {
+    } else if(Currentpost.COMMENT!=null) {
       return Container(
           height: 75.0,
           child: new ListView.builder(
@@ -112,6 +112,8 @@ class ShowpostState extends State<Showpost> {
               );
             },
           ));
+    }else{
+      return Column();
     }
   }
 
@@ -163,7 +165,7 @@ class ShowpostState extends State<Showpost> {
   }
   Widget buildunlike() {
     if (checksql==1) {
-       RaisedButton(
+       return RaisedButton(
                 child: Text("unlike post"),
                 onPressed: () async {
                   await dataAccess.open();
