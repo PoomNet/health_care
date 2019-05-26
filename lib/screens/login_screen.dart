@@ -214,7 +214,7 @@ class _LoginSignUpPageState extends State<LoginSignUpPage> {
                 )
               ],
             ),
-            _showCircularProgress(),
+            // _showCircularProgress(),
           ],
         ));
   }
