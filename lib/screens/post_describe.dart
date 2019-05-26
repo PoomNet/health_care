@@ -82,9 +82,14 @@ class ShowpostState extends State<Showpost> {
   }
 
   Widget buildbut() {
-    if (checkcom==0) {
-      return RaisedButton(
-        child: Text("Show Comments"),
+    if (checkcom == 0) {
+      return RaisedButton.icon(
+        icon: Icon(Icons.comment),
+        label: Text("Show Comments"),
+        textColor: Colors.white,
+        shape:
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
+        color: Colors.greenAccent,
         onPressed: () {
           setState(() {
             checkcom = 1;
@@ -97,9 +102,9 @@ class ShowpostState extends State<Showpost> {
   }
 
   Widget buildList() {
-    if (checkcom==0) {
+    if (checkcom == 0) {
       return Column();
-    } else if(Currentpost.COMMENT!=null) {
+    } else if (Currentpost.COMMENT != null) {
       return Container(
           height: 75.0,
           child: new ListView.builder(
@@ -112,7 +117,7 @@ class ShowpostState extends State<Showpost> {
               );
             },
           ));
-    }else{
+    } else {
       return Column();
     }
   }
@@ -129,57 +134,68 @@ class ShowpostState extends State<Showpost> {
   }
 
   Widget buildlike() {
-    if (checksql==1) {
+    if (checksql == 1) {
       return Column();
     } else {
-      return RaisedButton(
-                child: Text("like post"),
-                onPressed: () async {
-                  await dataAccess.open();
+      return RaisedButton.icon(
+          color: Colors.redAccent,
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
+          textColor: Colors.white,
+          icon: Icon(Icons.favorite),
+          label: Text("like post"),
+          onPressed: () async {
+            await dataAccess.open();
 
-                  dataAccess.getAllUser().then((r) {
-                    for (var i = 0; i < r.length; i++) {
-                      if (r[i].cause == Currentpost.CAUSE) {
-                        checksql = 1;
-                      }
-                    }
-                  });
-                  if (checksql == 0) {
-                    ProfileItem data =
-                        ProfileItem(); //สร้างไว้สร้างข้อมูลใหม่ไม่ต้องมีidจะสร้างให้เอง
-                    data.cause = Currentpost.CAUSE;
-                    data.symptom = Currentpost.SYMPTOM;
-                    data.category = Currentpost.CATEGORY;
-                    data.describe = Currentpost.DESCRIBE;
-                    data.user = Currentpost.USER;
-                    data.image = Currentpost.IMAGE;
-                    await dataAccess.insertUser(data);
-                  } else {
-                    print("cant add");
-                  }
-                  setState(() {
-                    checksql=1;
-                  });
-                });
+            dataAccess.getAllUser().then((r) {
+              for (var i = 0; i < r.length; i++) {
+                if (r[i].cause == Currentpost.CAUSE) {
+                  checksql = 1;
+                }
+              }
+            });
+            if (checksql == 0) {
+              ProfileItem data =
+                  ProfileItem(); //สร้างไว้สร้างข้อมูลใหม่ไม่ต้องมีidจะสร้างให้เอง
+              data.cause = Currentpost.CAUSE;
+              data.symptom = Currentpost.SYMPTOM;
+              data.category = Currentpost.CATEGORY;
+              data.describe = Currentpost.DESCRIBE;
+              data.user = Currentpost.USER;
+              data.image = Currentpost.IMAGE;
+              await dataAccess.insertUser(data);
+            } else {
+              print("cant add");
+            }
+            setState(() {
+              checksql = 1;
+            });
+          });
     }
   }
+
   Widget buildunlike() {
-    if (checksql==1) {
-       return RaisedButton(
-                child: Text("unlike post"),
-                onPressed: () async {
-                  await dataAccess.open();
-                  dataAccess.getAllUser().then((r) {
-                    for (var i = 0; i < r.length; i++) {
-                      if (r[i].cause == Currentpost.CAUSE) {
-                        dataAccess.delete(r[i].id);
-                      }
-                    }
-                  });
-                  setState(() {
-                    checksql=0;
-                  });
-                });
+    if (checksql == 1) {
+      return RaisedButton.icon(
+          color: Colors.blueGrey,
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
+          textColor: Colors.white,
+          icon: Icon(Icons.favorite_border),
+          label: Text("unlike post"),
+          onPressed: () async {
+            await dataAccess.open();
+            dataAccess.getAllUser().then((r) {
+              for (var i = 0; i < r.length; i++) {
+                if (r[i].cause == Currentpost.CAUSE) {
+                  dataAccess.delete(r[i].id);
+                }
+              }
+            });
+            setState(() {
+              checksql = 0;
+            });
+          });
     } else {
       return Column();
     }
@@ -187,9 +203,11 @@ class ShowpostState extends State<Showpost> {
 
   Widget build(BuildContext context) {
     return Scaffold(
+        resizeToAvoidBottomPadding: true,
         appBar: AppBar(
+          centerTitle: true,
           leading: new Container(),
-          title: Text("flutter"),
+          title: Text(Currentpost.CAUSE),
           actions: <Widget>[
             new IconButton(
               icon: new Icon(Icons.close),
@@ -205,44 +223,91 @@ class ShowpostState extends State<Showpost> {
             )
           ],
         ),
-        body: Column(
-          children: <Widget>[
-            buildIm(),
-            Text(Currentpost.CAUSE),
-            Text(Currentpost.SYMPTOM),
-            Text(Currentpost.DESCRIBE),
-            Text(Currentpost.USER),
-            buildbut(),
-            buildList(),
-            TextFormField(
-                decoration: InputDecoration(labelText: "comment"),
-                controller: commentCon,
-                validator: (value) {
-                  if (value.isEmpty) {
-                    return "Please fill subject";
-                  }
-                }),
-            RaisedButton(
-                child: Text("comment"),
-                onPressed: () {
-                  FirebaseDatabase.instance
-                      .reference()
-                      .child(check_user.toString())
-                      .child("post")
-                      .child(check_post.toString())
-                      .child("comment")
-                      .child(new_com.toString())
-                      .set(commentCon.text);
-                  com;
-                  comment.add(commentCon.text);
-                  Currentpost.COMMENT = comment;
-                  setState(() {
-                    commentCon.clear();
-                  });
-                }),
-            buildlike(),
-            buildunlike(),
-          ],
+        body: Padding(
+          padding: const EdgeInsets.all(15.0),
+          child: Container(
+            height: 500,
+            child: ListView(
+              children: <Widget>[
+                Container(
+                  child: Column(
+                    children: <Widget>[
+                      buildIm(),
+                      ListTile(
+                        leading: Icon(Icons.subject),
+                        title: Text(Currentpost.CAUSE),
+                      ),
+                      ListTile(
+                        leading: Icon(Icons.not_listed_location),
+                        title: Text(Currentpost.SYMPTOM),
+                      ),
+                      ListTile(
+                        leading: Icon(Icons.speaker_notes),
+                        title: Text(Currentpost.DESCRIBE),
+                      ),
+                      ListTile(
+                        leading: Icon(Icons.account_circle),
+                        title: Text(Currentpost.USER),
+                      ),
+                      buildlike(),
+                      buildunlike(),
+                      buildbut(),
+                      buildList(),
+                      TextFormField(
+                          decoration: new InputDecoration(
+                              labelText: "Comment",
+                              fillColor: Colors.white,
+                              border: new OutlineInputBorder(
+                                borderRadius: new BorderRadius.circular(25.0),
+                                borderSide: new BorderSide(),
+                              ),
+                              focusedBorder: new OutlineInputBorder(
+                                borderRadius: new BorderRadius.circular(25.0),
+                                borderSide:
+                                    new BorderSide(color: Colors.greenAccent),
+                              ),
+                              hintText: "Write your comment here"),
+                          keyboardType: TextInputType.multiline,
+                          maxLines: 3,
+                          controller: commentCon,
+                          validator: (value) {
+                            if (value.isEmpty) {
+                              return "Please fill subject";
+                            }
+                          }),
+                      ConstrainedBox(
+                        constraints:
+                            const BoxConstraints(minWidth: double.infinity),
+                        child: RaisedButton.icon(
+                            icon: Icon(Icons.add_comment),
+                            color: Colors.blueAccent,
+                            textColor: Colors.white,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20.0)),
+                            label: Text("Comment"),
+                            onPressed: () {
+                              FirebaseDatabase.instance
+                                  .reference()
+                                  .child(check_user.toString())
+                                  .child("post")
+                                  .child(check_post.toString())
+                                  .child("comment")
+                                  .child(new_com.toString())
+                                  .set(commentCon.text);
+                              com;
+                              comment.add(commentCon.text);
+                              Currentpost.COMMENT = comment;
+                              setState(() {
+                                commentCon.clear();
+                              });
+                            }),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
         ));
   }
 }
