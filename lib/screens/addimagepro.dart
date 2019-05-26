@@ -13,7 +13,7 @@ import 'home_screen.dart';
 
 class Addimagepro extends StatefulWidget {
   //หน้าใส่รูปเข้าfirebase
-  User userinfo;
+  // User userinfo;
   Addimagepro();
   @override
   State<StatefulWidget> createState() => new AddimageState();
@@ -27,7 +27,7 @@ File image;
 String filename;
 
 class AddimageState extends State<Addimagepro> {
-  User userinf2;
+  // User userinf2;
   Future _getImage() async {
     var selectedImage =
         await ImagePicker.pickImage(source: ImageSource.gallery);
