@@ -1,8 +1,23 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_facebook_login/flutter_facebook_login.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:myapp/data/users.dart';
+import 'package:myapp/screens/root_page.dart';
 import 'package:myapp/services/authentication.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 FirebaseAuth a;
+
+GoogleSignIn _googleSignIn = new GoogleSignIn(
+  scopes: <String>[
+    'email',
+  ],
+);
+
 class LoginSignUpPage extends StatefulWidget {
   LoginSignUpPage({this.auth, this.onSignedIn});
   final BaseAuth auth;
@@ -15,6 +30,63 @@ class LoginSignUpPage extends StatefulWidget {
 enum FormMode { LOGIN, SIGNUP }
 
 class _LoginSignUpPageState extends State<LoginSignUpPage> {
+
+  GoogleSignInAccount _currentUser;
+  static final FacebookLogin facebookSignIn = new FacebookLogin();
+
+  Future<Null> _facebookLogin() async {
+    final FacebookLoginResult result =
+        await facebookSignIn.logInWithReadPermissions(['email']);
+
+    switch (result.status) {
+      case FacebookLoginStatus.loggedIn:
+        final FacebookAccessToken accessToken = result.accessToken;
+        print(accessToken.token);
+        await getFacebookInfo(accessToken.token);
+        break;
+      case FacebookLoginStatus.cancelledByUser:
+        print('Login cancelled by the user.');
+        break;
+      case FacebookLoginStatus.error:
+        print('Something went wrong with the login process.\n'
+            'Here\'s the error Facebook gave us: ${result.errorMessage}');
+        break;
+    }
+  }
+
+  Future<Null> _handleSignIn() async {
+    try {
+      _currentUser = await _googleSignIn.signIn();
+      ctrlUsername.text = _currentUser.email;
+      ctrlPassword.text = '002007Le';
+      _validateAndSubmit();
+    } catch (error) {
+      print(error);
+    }
+  }
+
+  Future getFacebookInfo(token) async {
+    String url =
+        'https://graph.facebook.com/v2.8/me?fields=picture.type(large),email,first_name,last_name&access_token=$token';
+    try {
+      var response = await http.get(url);
+      if (response.statusCode == 200) {
+        var jsonResponse = json.decode(response.body);
+        ctrlUsername.text = jsonResponse['email'];
+        ctrlPassword.text = '002007Le';
+        _validateAndSubmit();
+      } else {
+        print('Connection error!!');
+      }
+    } catch (error) {
+      print(error);
+    }
+  }
+
+
+
+
+
   final _formKey = new GlobalKey<FormState>();
 
   String _email;
@@ -183,6 +255,7 @@ class _LoginSignUpPageState extends State<LoginSignUpPage> {
               _showPrimaryButton(),
               _showSecondaryButton(),
               _showErrorMessage(),
+              __showFoatingAction()
             ],
           ),
         ));
@@ -242,6 +315,8 @@ class _LoginSignUpPageState extends State<LoginSignUpPage> {
   //     ),
   //   );
   // }
+  TextEditingController ctrlUsername = TextEditingController();
+  TextEditingController ctrlPassword = TextEditingController();
 
   Widget _showEmailInput() {
     return Padding(
@@ -249,6 +324,7 @@ class _LoginSignUpPageState extends State<LoginSignUpPage> {
       child: new TextFormField(
         maxLines: 1,
         keyboardType: TextInputType.emailAddress,
+        controller: ctrlUsername,
         autofocus: false,
         decoration: new InputDecoration(
             hintText: 'Email',
@@ -269,6 +345,7 @@ class _LoginSignUpPageState extends State<LoginSignUpPage> {
         maxLines: 1,
         obscureText: true,
         autofocus: false,
+        controller: ctrlPassword,
         decoration: new InputDecoration(
             hintText: 'Password',
             icon: new Icon(
@@ -312,5 +389,13 @@ class _LoginSignUpPageState extends State<LoginSignUpPage> {
             onPressed: _validateAndSubmit,
           ),
         ));
+  }
+  Widget __showFoatingAction(){
+    return Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: <Widget>[
+                      FloatingActionButton(child: Icon(FontAwesomeIcons.google, color: Colors.red,),backgroundColor: Colors.white,onPressed: () => _handleSignIn(),heroTag: 'googleBn',),
+                      FloatingActionButton(child: Icon(FontAwesomeIcons.facebookF, color: Colors.white,),backgroundColor: Colors.blue,onPressed: () => _facebookLogin(),heroTag: 'facebookBn',),
+                    
+                    ],);
   }
 }
