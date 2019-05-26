@@ -36,10 +36,11 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
-  var user="12";
-  var email="12";
+  var user = "12";
+  var email = "12";
   var check_user = 0;
-  var img = "https://firebasestorage.googleapis.com/v0/b/healthcare-ce7be.appspot.com/o/user-icon.png?alt=media&token=cfe54db6-e40d-4771-b8ce-1c0edae35f23";
+  var img =
+      "https://firebasestorage.googleapis.com/v0/b/healthcare-ce7be.appspot.com/o/user-icon.png?alt=media&token=cfe54db6-e40d-4771-b8ce-1c0edae35f23";
 
   static final FacebookLogin facebookSignIn = new FacebookLogin();
 
@@ -60,8 +61,8 @@ class _MainPageState extends State<MainPage> {
       print(Currentpost.USER);
       setState(() {
         print(111111);
-        user=Currentlogin.USER;
-        email=Currentlogin.EMAIL;
+        user = Currentlogin.USER;
+        email = Currentlogin.EMAIL;
       });
 
       for (check_user; check_user < data.value.length; check_user++) {
@@ -75,7 +76,7 @@ class _MainPageState extends State<MainPage> {
             if (data.value[check_user]['user']['image'] != null) {
               setState(() {
                 img = data.value[check_user]['user']['image'];
-              Currentlogin.IMAGE=img;
+                Currentlogin.IMAGE = img;
               });
             }
 
@@ -106,22 +107,31 @@ class _MainPageState extends State<MainPage> {
   int currentIndex = 0;
   List pages = [PostPage(), Map_Screen(), ProfilePage()];
 
-  Widget name(){
-    if(widget.userinfo.displayname==null){
+  Widget name() {
+    if (widget.userinfo.displayname == null && Currentlogin.IMAGE == null) {
       return Column();
-    }
-    else{
+    } else if (widget.userinfo.displayname != null && Currentlogin.IMAGE == null) {
       return UserAccountsDrawerHeader(
-          currentAccountPicture: CircleAvatar(
-            backgroundColor: Colors.white10,
-          ),
-          accountName: Text(widget.userinfo.displayname),
-          accountEmail: Text(widget.userinfo.email),
-          decoration: BoxDecoration(
-               image: DecorationImage(fit: BoxFit.cover, image: NetworkImage(img))
-
-              ),
-        );
+        currentAccountPicture: CircleAvatar(
+          backgroundColor: Colors.white10,
+        ),
+        accountName: Text(widget.userinfo.displayname),
+        accountEmail: Text(widget.userinfo.email),
+        decoration: BoxDecoration(
+            image:
+                DecorationImage(fit: BoxFit.cover, image: NetworkImage(img))),
+      );
+    } else if (widget.userinfo.displayname != null && Currentlogin.IMAGE != null) {
+      return UserAccountsDrawerHeader(
+        currentAccountPicture: CircleAvatar(
+          backgroundColor: Colors.white10,
+        ),
+        accountName: Text(widget.userinfo.displayname),
+        accountEmail: Text(widget.userinfo.email),
+        decoration: BoxDecoration(
+            image:
+                DecorationImage(fit: BoxFit.cover, image: NetworkImage(Currentlogin.IMAGE))),
+      );
     }
   }
 
