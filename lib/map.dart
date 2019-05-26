@@ -123,7 +123,7 @@ class MapState extends State<Map_Screen> {
     });
 
     final location = Location(center.latitude, center.longitude);
-    final result = await _places.searchNearbyWithRadius(location, 2000);
+    final result = await _places.searchNearbyWithRadius(location, 2000, keyword: "โรงพยาบาล");
     var list = ["pharmacy","health","dentist","doctor","hospital","physiotherapist","spa"];
     setState(() {
       this.isLoading = false;
