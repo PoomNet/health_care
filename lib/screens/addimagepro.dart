@@ -99,6 +99,7 @@ Future<String> uploadImage() async {
 
   var downUrl = await (await uploadTask.onComplete).ref.getDownloadURL();
   var url = downUrl.toString();
+  Currentlogin.IMAGE = url;
 
   print("download URL : $url");
 
