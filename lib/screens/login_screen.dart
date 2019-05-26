@@ -10,6 +10,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+
 FirebaseAuth a;
 
 GoogleSignIn _googleSignIn = new GoogleSignIn(
@@ -30,7 +31,6 @@ class LoginSignUpPage extends StatefulWidget {
 enum FormMode { LOGIN, SIGNUP }
 
 class _LoginSignUpPageState extends State<LoginSignUpPage> {
-
   GoogleSignInAccount _currentUser;
   static final FacebookLogin facebookSignIn = new FacebookLogin();
 
@@ -83,10 +83,6 @@ class _LoginSignUpPageState extends State<LoginSignUpPage> {
     }
   }
 
-
-
-
-
   final _formKey = new GlobalKey<FormState>();
 
   String _email;
@@ -98,8 +94,7 @@ class _LoginSignUpPageState extends State<LoginSignUpPage> {
   // String _km;
   // String _picture;
   // String _step;
-  // String _usernam 
-
+  // String _usernam
 
   // Initial form is login form
   FormMode _formMode = FormMode.LOGIN;
@@ -108,7 +103,6 @@ class _LoginSignUpPageState extends State<LoginSignUpPage> {
 
   // Check if form is valid before perform login or signup
   bool _validateAndSave() {
-    
     final form = _formKey.currentState;
     if (form.validate()) {
       form.save();
@@ -119,7 +113,6 @@ class _LoginSignUpPageState extends State<LoginSignUpPage> {
 
   // Perform login or signup
   void _validateAndSubmit() async {
-    
     String email = '';
     setState(() {
       _errorMessage = "";
@@ -127,24 +120,24 @@ class _LoginSignUpPageState extends State<LoginSignUpPage> {
     });
     if (_validateAndSave()) {
       String userId = "";
-      final DocumentReference documentReference = Firestore.instance.document("register/"+_email);
+      final DocumentReference documentReference =
+          Firestore.instance.document("register/" + _email);
       try {
         if (_formMode == FormMode.LOGIN) {
           userId = await widget.auth.signIn(_email, _password);
-          print('Signed in: ${widget.auth.isEmailVerified()}' );
+          print('Signed in: ${widget.auth.isEmailVerified()}');
         } else {
           userId = await widget.auth.signUp(_email, _password);
           widget.auth.sendEmailVerification();
 
           Map<String, dynamic> data = <String, dynamic>{
-            "email":_email,
+            "email": _email,
             "name": _name,
-            "picture" : ""
+            "picture": ""
           };
           documentReference.setData(data).whenComplete(() {
-          print("Document Added");
+            print("Document Added");
           }).catchError((e) => print(e));
-
 
           _showVerifyEmailSentDialog();
           print('Signed up user: $userId');
@@ -153,10 +146,11 @@ class _LoginSignUpPageState extends State<LoginSignUpPage> {
           _isLoading = false;
         });
 
-        if (userId.length > 0 && userId != null && _formMode == FormMode.LOGIN) {
+        if (userId.length > 0 &&
+            userId != null &&
+            _formMode == FormMode.LOGIN) {
           widget.onSignedIn();
         }
-
       } catch (e) {
         print('Error: $e');
         setState(() {
@@ -169,7 +163,6 @@ class _LoginSignUpPageState extends State<LoginSignUpPage> {
       }
     }
   }
-
 
   @override
   void initState() {
@@ -205,17 +198,35 @@ class _LoginSignUpPageState extends State<LoginSignUpPage> {
         ),
         body: Stack(
           children: <Widget>[
-            _showBody(),
+            Stack(
+              children: <Widget>[
+                Image.asset('assets/pic/login-wall.jpg'),
+                Container(
+                  padding: new EdgeInsets.only(
+                      top: MediaQuery.of(context).size.height * .15,
+                      right: 20.0,
+                      left: 20.0),
+                  child: Card(
+                      child: Padding(
+                    padding: EdgeInsets.all(10),
+                    child: _showBody(),
+                  )),
+                )
+              ],
+            ),
             _showCircularProgress(),
           ],
         ));
   }
 
-  Widget _showCircularProgress(){
+  Widget _showCircularProgress() {
     if (_isLoading) {
       return Center(child: CircularProgressIndicator());
-    } return Container(height: 0.0, width: 0.0,);
-
+    }
+    return Container(
+      height: 0.0,
+      width: 0.0,
+    );
   }
 
   void _showVerifyEmailSentDialog() {
@@ -225,7 +236,8 @@ class _LoginSignUpPageState extends State<LoginSignUpPage> {
         // return object of type Dialog
         return AlertDialog(
           title: new Text("Verify your account"),
-          content: new Text("Link to verify account has been sent to your email"),
+          content:
+              new Text("Link to verify account has been sent to your email"),
           actions: <Widget>[
             new FlatButton(
               child: new Text("Dismiss"),
@@ -240,7 +252,7 @@ class _LoginSignUpPageState extends State<LoginSignUpPage> {
     );
   }
 
-  Widget _showBody(){
+  Widget _showBody() {
     return new Container(
         padding: EdgeInsets.all(16.0),
         child: new Form(
@@ -263,11 +275,11 @@ class _LoginSignUpPageState extends State<LoginSignUpPage> {
 
   bool visible = false;
   Widget _showNameInput() {
-    type==1? visible = true: visible = false;
+    type == 1 ? visible = true : visible = false;
     return Visibility(
       visible: visible,
       child: Padding(
-        padding: const EdgeInsets.fromLTRB(10.0, 20.0, 10.0, 0.0),
+        padding: const EdgeInsets.only(top: 10, right: 10),
         child: new TextFormField(
           maxLines: 1,
           keyboardType: TextInputType.text,
@@ -320,18 +332,14 @@ class _LoginSignUpPageState extends State<LoginSignUpPage> {
 
   Widget _showEmailInput() {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(0.0, 100.0, 0.0, 0.0),
+      padding: const EdgeInsets.only(top: 10),
       child: new TextFormField(
         maxLines: 1,
         keyboardType: TextInputType.emailAddress,
         controller: ctrlUsername,
         autofocus: false,
-        decoration: new InputDecoration(
-            hintText: 'Email',
-            icon: new Icon(
-              Icons.mail,
-              color: Colors.grey,
-            )),
+        decoration:
+            new InputDecoration(icon: Icon(Icons.email), hintText: 'Email'),
         validator: (value) => value.isEmpty ? 'Email can\'t be empty' : null,
         onSaved: (value) => _email = value,
       ),
@@ -340,7 +348,7 @@ class _LoginSignUpPageState extends State<LoginSignUpPage> {
 
   Widget _showPasswordInput() {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(0.0, 15.0, 0.0, 0.0),
+      padding: const EdgeInsets.only(top: 10),
       child: new TextFormField(
         maxLines: 1,
         obscureText: true,
@@ -360,12 +368,16 @@ class _LoginSignUpPageState extends State<LoginSignUpPage> {
 
   Widget _showSecondaryButton() {
     return new FlatButton(
-      child: _formMode == FormMode.LOGIN
-          ? new Text('Create an account',
-              style: new TextStyle(fontSize: 18.0, fontWeight: FontWeight.w300))
-          : new Text('Have an account? Sign in',
-              style:
-                  new TextStyle(fontSize: 18.0, fontWeight: FontWeight.w300)),
+      child: Align(
+        alignment: Alignment.centerRight,
+        child: _formMode == FormMode.LOGIN
+            ? new Text('Create an account',
+                style:
+                    new TextStyle(fontSize: 18.0, fontWeight: FontWeight.w300))
+            : new Text('Have an account? Sign in',
+                style:
+                    new TextStyle(fontSize: 18.0, fontWeight: FontWeight.w300)),
+      ),
       onPressed: _formMode == FormMode.LOGIN
           ? _changeFormToSignUp
           : _changeFormToLogin,
@@ -374,13 +386,14 @@ class _LoginSignUpPageState extends State<LoginSignUpPage> {
 
   Widget _showPrimaryButton() {
     return new Padding(
-        padding: EdgeInsets.fromLTRB(0.0, 45.0, 0.0, 0.0),
+        padding: EdgeInsets.only(top: 35),
         child: SizedBox(
           height: 40.0,
           child: new RaisedButton(
             elevation: 5.0,
-            shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
-            color: Colors.blue,
+            shape: new RoundedRectangleBorder(
+                borderRadius: new BorderRadius.circular(15.0)),
+            color: Color(0xffff9999),
             child: _formMode == FormMode.LOGIN
                 ? new Text('Login',
                     style: new TextStyle(fontSize: 20.0, color: Colors.white))
@@ -390,12 +403,35 @@ class _LoginSignUpPageState extends State<LoginSignUpPage> {
           ),
         ));
   }
-  Widget __showFoatingAction(){
-    return Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: <Widget>[
-                      FloatingActionButton(child: Icon(FontAwesomeIcons.google, color: Colors.red,),backgroundColor: Colors.white,onPressed: () => _handleSignIn(),heroTag: 'googleBn',),
-                      FloatingActionButton(child: Icon(FontAwesomeIcons.facebookF, color: Colors.white,),backgroundColor: Colors.blue,onPressed: () => _facebookLogin(),heroTag: 'facebookBn',),
-                    
-                    ],);
+
+  Widget __showFoatingAction() {
+    return Row(
+      children: <Widget>[
+        Padding(
+          padding: const EdgeInsets.only(left: 85),
+          child: FloatingActionButton(
+            child: Icon(
+              FontAwesomeIcons.google,
+              color: Colors.red,
+            ),
+            backgroundColor: Colors.white,
+            onPressed: () => _handleSignIn(),
+            heroTag: 'googleBn',
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(left: 20),
+          child: FloatingActionButton(
+            child: Icon(
+              FontAwesomeIcons.facebookF,
+              color: Colors.white,
+            ),
+            backgroundColor: Colors.blue,
+            onPressed: () => _facebookLogin(),
+            heroTag: 'facebookBn',
+          ),
+        ),
+      ],
+    );
   }
 }

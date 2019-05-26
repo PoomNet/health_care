@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/rendering.dart';
 import 'package:myapp/screens/post_describe.dart';
+import 'package:carousel_pro/carousel_pro.dart';
 
 import 'current_post.dart';
 
@@ -59,8 +60,22 @@ class _PostPageState extends State<PostPage> {
 
   Widget _buildfilterBut() {
     if (!filter) {
-      return RaisedButton(
-        child: Text("Filter"),
+      return RaisedGradientButton(
+        child: Row(
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.only(left: 150, right: 5),
+              child: Text(
+                "ค้นหาตามหมวดหมู่",
+                style: TextStyle(color: Colors.white),
+              ),
+            ),
+            Icon(Icons.search, color: Colors.white)
+          ],
+        ),
+        gradient: LinearGradient(
+          colors: <Color>[Color(0xff843270), Color(0xff8e5981)],
+        ),
         onPressed: () {
           setState(() {
             filter = true;
@@ -68,8 +83,7 @@ class _PostPageState extends State<PostPage> {
         },
       );
     } else {
-      return Column(
-      );
+      return Column();
     }
   }
 
@@ -79,11 +93,15 @@ class _PostPageState extends State<PostPage> {
         children: <Widget>[
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: new Align(alignment: Alignment.centerLeft, child: new Text("สุขภาพทั่วไป", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0),)),
+            child: new Align(
+                alignment: Alignment.centerLeft,
+                child: new Text(
+                  "สุขภาพทั่วไป",
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0),
+                )),
           ),
           Row(
             children: <Widget>[
-   
               new Radio(
                 value: 0,
                 groupValue: _radioValue,
@@ -96,23 +114,25 @@ class _PostPageState extends State<PostPage> {
                 onChanged: _handleRadioValueChange,
               ),
               new Text('การออกกำลังกาย'),
-                           new Radio(
+              new Radio(
                 value: 2,
                 groupValue: _radioValue,
                 onChanged: _handleRadioValueChange,
               ),
               new Text('ลดน้ำหนัก'),
-           
             ],
           ),
-  Padding(
+          Padding(
             padding: const EdgeInsets.all(8.0),
-            child: new Align(alignment: Alignment.centerLeft, child: new Text("เพศ", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0),)),
+            child: new Align(
+                alignment: Alignment.centerLeft,
+                child: new Text(
+                  "เพศ",
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0),
+                )),
           ),
           Row(
             children: <Widget>[
-    
-          
               new Radio(
                 value: 4,
                 groupValue: _radioValue,
@@ -125,21 +145,26 @@ class _PostPageState extends State<PostPage> {
                 onChanged: _handleRadioValueChange,
               ),
               new Text('ผู้ชาย'),
-              
             ],
           ),
-  Padding(
+          Padding(
             padding: const EdgeInsets.all(8.0),
-            child: new Align(alignment: Alignment.centerLeft, child: new Text("เพิ่มเติม", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0),)),
+            child: new Align(
+                alignment: Alignment.centerLeft,
+                child: new Text(
+                  "เพิ่มเติม",
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0),
+                )),
           ),
-          Row(children: <Widget>[
-                       new Radio(
+          Row(
+            children: <Widget>[
+              new Radio(
                 value: 7,
                 groupValue: _radioValue,
                 onChanged: _handleRadioValueChange,
               ),
-              new Text('all'),
-                new Radio(
+              new Text('ทั้งหมด'),
+              new Radio(
                 value: 3,
                 groupValue: _radioValue,
                 onChanged: _handleRadioValueChange,
@@ -151,19 +176,40 @@ class _PostPageState extends State<PostPage> {
                 onChanged: _handleRadioValueChange,
               ),
               new Text('อื่นๆ'),
-          ],),
-          RaisedButton(
-            child: Text("Close"),
-            onPressed: () {
-              setState(() {
-                filter = false;
-              });
-            },
+            ],
+          ),
+          Padding(
+            padding: const EdgeInsets.only(bottom: 5),
+            child: RaisedGradientButton(
+              child: Text("Close", style: TextStyle(color: Colors.white)),
+              gradient: LinearGradient(
+                colors: <Color>[Color(0xff843270), Color(0xff8e5981)],
+              ),
+              onPressed: () {
+                setState(() {
+                  filter = false;
+                });
+              },
+            ),
           )
         ],
       );
     } else {
-      return Column();
+      return Container(
+        height: 200,
+        child: Carousel(
+          boxFit: BoxFit.cover,
+          images: [
+            AssetImage('assets/pic/carou1.jpg'),
+            AssetImage('assets/pic/carou2.jpg'),
+            AssetImage('assets/pic/carou3.jpg'),
+            AssetImage('assets/pic/carou4.jpg'),
+            AssetImage('assets/pic/carou5.jpg')
+          ],
+          animationCurve: Curves.fastOutSlowIn,
+          animationDuration: Duration(microseconds: 2000),
+        ),
+      );
     }
   }
 
@@ -171,139 +217,186 @@ class _PostPageState extends State<PostPage> {
     if (category == "all") {
       var check_user = 0;
       var check_post = 0;
-      return Container(
-        height: 110,
-        child: Card(
-        
-        shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20.0),
-                ),
+      return Card(
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
           color: Colors.pink[50],
           margin: const EdgeInsets.all(10),
-            child: ListTile(
-                leading: Icon(Icons.person),
-                trailing: Icon(Icons.keyboard_arrow_right),
-          title: Padding(
-            padding: const EdgeInsets.only(bottom: 10),
-            child: Row(
+          child: ListTile(
+            leading: Icon(Icons.person),
+            trailing: Icon(Icons.keyboard_arrow_right),
+            title: Padding(
+              padding: const EdgeInsets.only(bottom: 10),
+              child: Wrap(
+                children: <Widget>[
+                  Text('Topic : ',
+                      style: TextStyle(fontWeight: FontWeight.bold)),
+                  Text(document['cause']),
+                ],
+              ),
+            ),
+            subtitle: Column(
               children: <Widget>[
-                Text('Topic : ',style: TextStyle(fontWeight: FontWeight.bold)),
-                Text(document['cause']),
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 5),
+                  child: Wrap(
+                    children: <Widget>[
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text('Symptom : ' + document['symptom'],
+                            style: TextStyle(fontWeight: FontWeight.bold)),
+                      ),
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 2),
+                  child: Wrap(
+                    children: <Widget>[
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text('Published by : ' + document['user'],
+                            style: TextStyle(fontWeight: FontWeight.bold)),
+                      ),
+                    ],
+                  ),
+                )
               ],
             ),
-          ),
-          subtitle: Row(
-            children: <Widget>[
-              Text('Description : ',style: TextStyle(fontWeight: FontWeight.bold)),
-              Text(document['symptom']),
-            ],
-          ),
-          onTap: () {
-            Currentpost.CAUSE = document['cause'];
-            Currentpost.SYMPTOM = document['symptom'];
-            Currentpost.DESCRIBE = document['describe'];
-            Currentpost.CATEGORY = document['category'];
-            Currentpost.USER = document['user'];
-            Currentpost.IMAGE = document['image'];
-            FirebaseDatabase.instance
-                .reference()
-                .once()
-                .then((DataSnapshot data) {
-              for (check_user; check_user < data.value.length; check_user++) {
-                if (data.value[check_user] != null) {
-                  if (data.value[check_user]['user']['name'] ==
-                      Currentpost.USER) {
-                    user = data.value[check_user]['user'];
-                    break;
+            onTap: () {
+              Currentpost.CAUSE = document['cause'];
+              Currentpost.SYMPTOM = document['symptom'];
+              Currentpost.DESCRIBE = document['describe'];
+              Currentpost.CATEGORY = document['category'];
+              Currentpost.USER = document['user'];
+              Currentpost.IMAGE = document['image'];
+              FirebaseDatabase.instance
+                  .reference()
+                  .once()
+                  .then((DataSnapshot data) {
+                for (check_user; check_user < data.value.length; check_user++) {
+                  if (data.value[check_user] != null) {
+                    if (data.value[check_user]['user']['name'] ==
+                        Currentpost.USER) {
+                      user = data.value[check_user]['user'];
+                      break;
+                    }
                   }
                 }
-              }
-              if (data.value[check_user]['post'] != null) {
-                for (check_post;
-                    check_post < data.value[check_user]['post'].length;
-                    check_post++) {
-                  if (data.value[check_user]['post'][check_post]['describe'] ==
-                      Currentpost.DESCRIBE) {
-                    break;
+                if (data.value[check_user]['post'] != null) {
+                  for (check_post;
+                      check_post < data.value[check_user]['post'].length;
+                      check_post++) {
+                    if (data.value[check_user]['post'][check_post]
+                            ['describe'] ==
+                        Currentpost.DESCRIBE) {
+                      break;
+                    }
                   }
                 }
-              }
-              comment = data.value[check_user]['post'][check_post]['comment'];
-              Currentpost.COMMENT = comment;
-            });
-            Navigator.push(
-                context, MaterialPageRoute(builder: (context) => Showpost()));
-          },
-        )),
-      );
+                comment = data.value[check_user]['post'][check_post]['comment'];
+                Currentpost.COMMENT = comment;
+              });
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => Showpost()));
+            },
+          ));
     } else if (category == document['category']) {
       var check_user = 0;
       var check_post = 0;
       print(category);
       print(document['category']);
       return Card(
-        
-        color: Colors.pink[50],
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
+          color: Colors.pink[50],
           child: Container(
             child: ListTile(
-
               leading: Icon(Icons.person),
               trailing: Icon(Icons.keyboard_arrow_right),
-               title: Padding(
-          padding: const EdgeInsets.only(bottom: 10),
-          child: Row(
-            children: <Widget>[
-              Text('Topic : ',style: TextStyle(fontWeight: FontWeight.bold)),
-              Text(document['cause']),
-            ],
-          ),
-        ),
-        subtitle: Row(
-          children: <Widget>[
-            Text('Description : ',style: TextStyle(fontWeight: FontWeight.bold)),
-            Text(document['symptom']),
-          ],
-        ),
-        onTap: () {
-            Currentpost.CAUSE = document['cause'];
-            Currentpost.SYMPTOM = document['symptom'];
-            Currentpost.DESCRIBE = document['describe'];
-            Currentpost.CATEGORY = document['category'];
-            Currentpost.USER = document['user'];
-            Currentpost.IMAGE = document['image'];
-            FirebaseDatabase.instance
-                .reference()
-                .once()
-                .then((DataSnapshot data) {
-              for (check_user; check_user < data.value.length; check_user++) {
-                if (data.value[check_user] != null) {
-                  if (data.value[check_user]['user']['name'] ==
-                      Currentpost.USER) {
-                    user = data.value[check_user]['user'];
-                    break;
+              title: Padding(
+                padding: const EdgeInsets.only(top: 2, bottom: 2),
+                child: Wrap(
+                  children: <Widget>[
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text('Topic : ' + document['cause'],
+                          style: TextStyle(fontWeight: FontWeight.bold)),
+                    ),
+                  ],
+                ),
+              ),
+              subtitle: Column(
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 5),
+                    child: Wrap(
+                      children: <Widget>[
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text('Symptom : ' + document['symptom'],
+                              style: TextStyle(fontWeight: FontWeight.bold)),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 2),
+                    child: Wrap(
+                      children: <Widget>[
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text('Published by : ' + document['user'],
+                              style: TextStyle(fontWeight: FontWeight.bold)),
+                        ),
+                      ],
+                    ),
+                  )
+                ],
+              ),
+              onTap: () {
+                Currentpost.CAUSE = document['cause'];
+                Currentpost.SYMPTOM = document['symptom'];
+                Currentpost.DESCRIBE = document['describe'];
+                Currentpost.CATEGORY = document['category'];
+                Currentpost.USER = document['user'];
+                Currentpost.IMAGE = document['image'];
+                FirebaseDatabase.instance
+                    .reference()
+                    .once()
+                    .then((DataSnapshot data) {
+                  for (check_user;
+                      check_user < data.value.length;
+                      check_user++) {
+                    if (data.value[check_user] != null) {
+                      if (data.value[check_user]['user']['name'] ==
+                          Currentpost.USER) {
+                        user = data.value[check_user]['user'];
+                        break;
+                      }
+                    }
                   }
-                }
-              }
-              if (data.value[check_user]['post'] != null) {
-                for (check_post;
-                    check_post < data.value[check_user]['post'].length;
-                    check_post++) {
-                  if (data.value[check_user]['post'][check_post]['describe'] ==
-                      Currentpost.DESCRIBE) {
-                    break;
+                  if (data.value[check_user]['post'] != null) {
+                    for (check_post;
+                        check_post < data.value[check_user]['post'].length;
+                        check_post++) {
+                      if (data.value[check_user]['post'][check_post]
+                              ['describe'] ==
+                          Currentpost.DESCRIBE) {
+                        break;
+                      }
+                    }
                   }
-                }
-              }
-              comment = data.value[check_user]['post'][check_post]['comment'];
-              Currentpost.COMMENT = comment;
-            });
-            Navigator.push(
-                context, MaterialPageRoute(builder: (context) => Showpost()));
-        },
-      ),
+                  comment =
+                      data.value[check_user]['post'][check_post]['comment'];
+                  Currentpost.COMMENT = comment;
+                });
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => Showpost()));
+              },
+            ),
           ));
-    }
-    else{
+    } else {
       return Column();
     }
   }
@@ -311,27 +404,11 @@ class _PostPageState extends State<PostPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: ListView(
-                  children: <Widget>[
-                     Column(
-      children: <Widget>[
-        
+        body: ListView(children: <Widget>[
+      Column(
+        children: <Widget>[
           _buildfilterBut(),
           _buildRadio(),
-                               Card(
-      
-      child: Image.asset(
-        'assets/pic/login-bg.jpg',
-        fit: BoxFit.fill,
-        height: 100,
-      ),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10.0),
-      ),
-      elevation: 5,
-      margin: EdgeInsets.all(10),
-    ),
-            
           StreamBuilder(
             stream: Firestore.instance.collection('post').snapshots(),
             builder: (context, snapshot) {
@@ -339,7 +416,6 @@ class _PostPageState extends State<PostPage> {
                 return Center(
                   child: Column(
                     children: <Widget>[
-                      
                       Text(
                         "No Data Found..",
                         textAlign: TextAlign.center,
@@ -349,19 +425,61 @@ class _PostPageState extends State<PostPage> {
                 );
               } else {
                 return Container(
-                  height: 300,
-                    child: ListView.builder(
-                      scrollDirection: Axis.vertical,
-                      shrinkWrap: true,
-                      itemCount: snapshot.data.documents.length,
-                      itemBuilder: (context, index) =>
-                          _buildPost(context, snapshot.data.documents[snapshot.data.documents.length-index-1]),
-                    ));
+                  height: 600,
+                  child: ListView.builder(
+                    scrollDirection: Axis.vertical,
+                    shrinkWrap: true,
+                    itemCount: snapshot.data.documents.length,
+                    itemBuilder: (context, index) =>
+                        _buildPost(context, snapshot.data.documents[snapshot.data.documents.length-index-1]),
+                  ),
+                );
               }
             },
           ),
-      ],
-    ),
-                  ]));
+        ],
+      ),
+    ]));
+  }
+}
+
+//customize button
+class RaisedGradientButton extends StatelessWidget {
+  final Widget child;
+  final Gradient gradient;
+  final double width;
+  final double height;
+  final Function onPressed;
+
+  const RaisedGradientButton({
+    Key key,
+    @required this.child,
+    this.gradient,
+    this.width = double.infinity,
+    this.height = 50.0,
+    this.onPressed,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: width,
+      height: 35.0,
+      decoration: BoxDecoration(gradient: gradient, boxShadow: [
+        BoxShadow(
+          color: Colors.grey[500],
+          offset: Offset(0.0, 1.5),
+          blurRadius: 1.5,
+        ),
+      ]),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+            onTap: onPressed,
+            child: Center(
+              child: child,
+            )),
+      ),
+    );
   }
 }
