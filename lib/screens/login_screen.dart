@@ -211,7 +211,11 @@ class _LoginSignUpPageState extends State<LoginSignUpPage> {
                     padding: EdgeInsets.all(10),
                     child: _showBody(),
                   )),
-                )
+                ),
+                Container(
+                  child: _isLoading
+                  ? Center(child: CircularProgressIndicator(backgroundColor: Colors.yellow))
+                  : Container())
               ],
             ),
             // _showCircularProgress(),

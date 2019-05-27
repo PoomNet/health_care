@@ -416,10 +416,8 @@ class _PostPageState extends State<PostPage> {
                 return Center(
                   child: Column(
                     children: <Widget>[
-                      Text(
-                        "No Data Found..",
-                        textAlign: TextAlign.center,
-                      )
+                      CircularProgressIndicator()
+                        
                     ],
                   ),
                 );

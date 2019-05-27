@@ -123,11 +123,35 @@ class _ProfilePageState extends State<ProfilePage> {
               
             ),
           ), 
+  
+          SizedBox(width: 10,),
+          
           RaisedButton(
-            child: Text("add pro"),
+             shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
             onPressed:(){
                Navigator.push(context, MaterialPageRoute(builder: (context) => Addimagepro()));
             },
+            textColor: Colors.white,
+            padding: const EdgeInsets.all(0),
+            child: Container(
+              decoration: new BoxDecoration(
+                gradient: LinearGradient(
+                  colors: <Color>[
+                    Color(0xFFF06292),
+                    Color(0xFFF48FB1),
+                    Color(0xFFF8BBD0),
+                  ],
+                ),
+                borderRadius: new BorderRadius.circular(20.0),
+
+              ),
+              padding: const EdgeInsets.all(10.0),
+              child: const Text(
+                'Add Your Pic',
+                style: TextStyle(fontSize: 15)
+              ),
+              
+            ),
           )
      
                 
