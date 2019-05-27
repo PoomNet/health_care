@@ -46,6 +46,9 @@ class _PostPageState extends State<LikePostPage> {
                         itemCount: document.length,
                         itemBuilder: (context, index) =>
                             new Card(
+                               shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
+        
                               color: Colors.pink[50],
         margin: const EdgeInsets.all(10),
           child: ListTile(
@@ -62,7 +65,7 @@ class _PostPageState extends State<LikePostPage> {
           padding: const EdgeInsets.only(bottom: 10),
           child: Row(
             children: <Widget>[
-              Text('Describe : ',style: TextStyle(fontWeight: FontWeight.bold)),
+              Text('Symptom : ',style: TextStyle(fontWeight: FontWeight.bold)),
               Text(document[index].symptom),            
               ],
           ),
@@ -113,7 +116,7 @@ class _PostPageState extends State<LikePostPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("flutter"),
+          title: Text("Like Post"),
         ),
         body: _buildPost(context, _todoItems)
         );

@@ -152,9 +152,9 @@ class _MainPageState extends State<MainPage> {
       },
       items: [
         BottomNavigationBarItem(
-            icon: Icon(Icons.home), title: Text('หน้าจอหลัก')),
+            icon: Icon(Icons.home), title: Text('home')),
         BottomNavigationBarItem(
-            icon: Icon(Icons.map), title: Text('ตำแหน่งของคุณ')),
+            icon: Icon(Icons.map), title: Text('Location')),
         BottomNavigationBarItem(
             icon: Icon(Icons.people), title: Text('Profile'))
       ],
@@ -163,9 +163,6 @@ class _MainPageState extends State<MainPage> {
     Widget appBar = AppBar(
       title: Text('HealthCare', style: myStyle),
       centerTitle: true,
-      actions: <Widget>[
-        new IconButton(icon: new Icon(Icons.search), onPressed: () {}),
-      ],
     );
 
     Widget floatingAction = FloatingActionButton(
@@ -186,25 +183,17 @@ class _MainPageState extends State<MainPage> {
       padding: EdgeInsets.zero,
       children: <Widget>[
         name(),
-        ListTile(
-          leading: Icon(Icons.home),
-          title: Text('หน้าหลัก'),
-          trailing: Icon(Icons.keyboard_arrow_right),
-          onTap: () {
-            Navigator.push(
-                context, MaterialPageRoute(builder: (context) => PostPage()));
-          },
-        ),
-        ListTile(
-          leading: Icon(Icons.settings),
-          title: Text('ตั้งค่า'),
-          subtitle: Text('ตั่งค่าผู้ใช้'),
-          trailing: Icon(Icons.keyboard_arrow_right),
-          onTap: () {},
-        ),
-        SizedBox(
-          height: 50,
-        ),
+        // ListTile(
+        //   leading: Icon(Icons.home),
+        //   title: Text('หน้าหลัก'),
+        //   trailing: Icon(Icons.keyboard_arrow_right),
+        //   onTap: () {
+        //     Navigator.push(
+        //         context, MaterialPageRoute(builder: (context) => PostPage()));
+        //   },
+        // ),
+       
+      
         Divider(
           height: 30,
           color: Colors.black,

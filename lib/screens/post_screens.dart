@@ -404,8 +404,10 @@ class _PostPageState extends State<PostPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: ListView(children: <Widget>[
-      Column(
+      resizeToAvoidBottomPadding: false,
+        body: Container(
+      height: 550,
+      child: Column(
         children: <Widget>[
           _buildfilterBut(),
           _buildRadio(),
@@ -425,13 +427,15 @@ class _PostPageState extends State<PostPage> {
                 );
               } else {
                 return Container(
-                  height: 600,
+                  height: 280,
                   child: ListView.builder(
                     scrollDirection: Axis.vertical,
                     shrinkWrap: true,
                     itemCount: snapshot.data.documents.length,
-                    itemBuilder: (context, index) =>
-                        _buildPost(context, snapshot.data.documents[snapshot.data.documents.length-index-1]),
+                    itemBuilder: (context, index) => _buildPost(
+                        context,
+                        snapshot.data.documents[
+                            snapshot.data.documents.length - index - 1]),
                   ),
                 );
               }
@@ -439,7 +443,7 @@ class _PostPageState extends State<PostPage> {
           ),
         ],
       ),
-    ]));
+    ));
   }
 }
 

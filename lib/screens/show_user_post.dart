@@ -28,7 +28,9 @@ class _PostPageState extends State<UserPostPage> {
       var check_user = 0;
       var check_post = 0;
       return Card(
-
+ shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
+        
                               color: Colors.pink[50],
         margin: const EdgeInsets.all(10),
           child: ListTile(
@@ -97,7 +99,7 @@ class _PostPageState extends State<UserPostPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          title: Text("fluteeter"),),
+          title: Text("Your Post"),),
         body: Column(
       children: <Widget>[
         StreamBuilder(

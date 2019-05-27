@@ -24,6 +24,7 @@ class _ProfilePageState extends State<ProfilePage> {
             image: new AssetImage("assets/pic/bg.jpg"),
             fit: BoxFit.cover,
           ),
+          
         ),
          child: Center(
            

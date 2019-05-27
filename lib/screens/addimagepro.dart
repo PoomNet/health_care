@@ -72,12 +72,13 @@ class AddimageState extends State<Addimagepro> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("flutter"),
+        title: Text("Add image"),
       ),
       body: Center(
         child: image == null ? Text("select image") : uploadArea(context),
       ),
       floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.pink,
         onPressed: _getImage,
         tooltip: 'Increment',
         child: Icon(Icons.image),
